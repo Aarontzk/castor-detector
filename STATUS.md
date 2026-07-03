@@ -25,6 +25,6 @@
 
 ## Open items (owner decisions)
 
-- PyPI name (`castor` likely taken — PRD S16.3: `castor-ai` / `castor-monitor`?)
+- ~~PyPI name~~ — resolved: `castor-detector` (owner, 2026-07-03); import name stays `castor`
 - Publish to GitHub + PyPI (needs owner account/action)
 - v1 candidates from validation: p99 calibration or 2-consecutive-flags verdict (FPR); aggregate-vs-max (context_swap dilution); claim-level decomposition (numeric/entity); semi-natural Ollama dataset

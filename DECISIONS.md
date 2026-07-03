@@ -13,3 +13,4 @@
 - 2026-07-03 — Validation calibration = p95 per signal on a 15-trajectory calibration split; FPR on 15 held-out. p99/2-consecutive-flags deferred to v1 to avoid double-fitting the same small dataset.
 - 2026-07-03 — CLI exit codes: 0 clean, 1 cascade, 2 monitoring failure (CI-friendly, UC-3/V5).
 - 2026-07-03 — Semi-natural Ollama dataset (PRD S12.2) skipped: Ollama not installed on dev machine. Logged in STATUS as open item, not silently dropped.
+- 2026-07-03 — PyPI distribution name = `castor-detector` (owner decision, PRD S16.3 resolved). Import name stays `castor`; CLI stays `castor`.

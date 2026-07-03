@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "castor"
+name = "castor-detector"
 version = "0.1.0"
 description = "Detects hallucination cascades in multi-agent LLM pipelines — tells you WHERE your agent chain started hallucinating, not just that it did."
 readme = "README.md"

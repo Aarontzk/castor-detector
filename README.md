@@ -10,6 +10,12 @@ Open-source observability & attribution layer for multi-agent LLM systems. Detec
 
 100% local and free: sentence-transformers + a local NLI cross-encoder. No paid APIs. Passive observer — never modifies, blocks, or crashes your pipeline.
 
+## Install
+
+```
+pip install castor-detector        # package name; you still `import castor`
+```
+
 ## Quick start
 
 ```python

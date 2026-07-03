@@ -5,7 +5,7 @@ name: Release to PyPI
 #
 # Uses PyPI Trusted Publishing (no API token stored in GitHub).
 # One-time setup on pypi.org: Account -> Publishing -> Add pending publisher:
-#   project: castor-detector, owner: AzkaTz, repo: castor-detector,
+#   project: castor-detector, owner: Aarontzk, repo: castor-detector,
 #   workflow: release.yml, environment: pypi
 
 on:

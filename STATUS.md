@@ -26,5 +26,6 @@
 ## Open items (owner decisions)
 
 - ~~PyPI name~~ — resolved: `castor-detector` (owner, 2026-07-03); import name stays `castor`
-- Publish to GitHub + PyPI (needs owner account/action)
+- ~~Publish to GitHub~~ — done 2026-07-03: https://github.com/Aarontzk/castor-detector (public, CI + release workflows active)
+- PyPI publish — ONE owner step left: add trusted publisher on pypi.org (project `castor-detector`, owner `Aarontzk`, repo `castor-detector`, workflow `release.yml`, environment `pypi`), then `git tag v0.1.0 && git push --tags`
 - v1 candidates from validation: p99 calibration or 2-consecutive-flags verdict (FPR); aggregate-vs-max (context_swap dilution); claim-level decomposition (numeric/entity); semi-natural Ollama dataset

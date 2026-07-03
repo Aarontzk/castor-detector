@@ -1,0 +1,6 @@
+{
+  "name": "calibrated-general",
+  "drift_threshold": 0.815,
+  "entail_threshold": 0.72,
+  "aggregate_threshold": 0.7123
+}

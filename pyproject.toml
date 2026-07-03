@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "castor"
+version = "0.1.0"
+description = "Detects hallucination cascades in multi-agent LLM pipelines — tells you WHERE your agent chain started hallucinating, not just that it did."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.24",
+    "sentence-transformers>=2.2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "langchain-core>=0.2"]
+langchain = ["langchain-core>=0.2"]
+
+[project.scripts]
+castor = "castor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,212 @@
+[
+  {"id": "fin-01", "domain": "numeric", "steps": [
+    {"step_id": 1, "text": "The Q1 financial report shows total revenue of 2.4 million dollars, up eight percent from Q4."},
+    {"step_id": 2, "text": "Subscription revenue contributed 1.1 million dollars of the Q1 total."},
+    {"step_id": 3, "text": "The remaining revenue came from one-time license sales and consulting fees."},
+    {"step_id": 4, "text": "Operating costs stayed flat at 1.8 million dollars during the same quarter."},
+    {"step_id": 5, "text": "The company therefore closed Q1 with a positive operating margin driven by subscription growth."}
+  ]},
+  {"id": "fin-02", "domain": "numeric", "steps": [
+    {"step_id": 1, "text": "The store sold 340 units of the standard model in March."},
+    {"step_id": 2, "text": "The premium model sold 120 units in the same month."},
+    {"step_id": 3, "text": "Combined March sales reached 460 units across both models."},
+    {"step_id": 4, "text": "April forecasts suggest similar volumes, with a slight shift toward the premium model."},
+    {"step_id": 5, "text": "Inventory planning allocates 300 standard and 160 premium units for April."}
+  ]},
+  {"id": "fin-03", "domain": "numeric", "steps": [
+    {"step_id": 1, "text": "Laporan penjualan bulan Mei mencatat pendapatan sebesar 450 juta rupiah."},
+    {"step_id": 2, "text": "Sekitar 60 persen pendapatan berasal dari penjualan daring melalui marketplace."},
+    {"step_id": 3, "text": "Sisanya berasal dari toko fisik di Bandung dan Surabaya."},
+    {"step_id": 4, "text": "Biaya operasional bulan Mei tercatat 320 juta rupiah, sedikit turun dari April."},
+    {"step_id": 5, "text": "Dengan demikian laba operasional Mei membaik dibanding bulan sebelumnya."}
+  ]},
+  {"id": "fin-04", "domain": "numeric", "steps": [
+    {"step_id": 1, "text": "The marketing budget for the campaign was set at 50 thousand dollars."},
+    {"step_id": 2, "text": "Roughly 30 thousand dollars went to paid social media advertising."},
+    {"step_id": 3, "text": "The campaign generated about 4,200 sign-ups over six weeks."},
+    {"step_id": 4, "text": "That works out to a customer acquisition cost of roughly twelve dollars per sign-up."},
+    {"step_id": 5, "text": "The acquisition cost is within the target range set before the campaign."}
+  ]},
+  {"id": "fin-05", "domain": "numeric", "steps": [
+    {"step_id": 1, "text": "Anggaran proyek renovasi kantor disetujui sebesar 200 juta rupiah."},
+    {"step_id": 2, "text": "Pengeluaran untuk material bangunan mencapai 110 juta rupiah."},
+    {"step_id": 3, "text": "Biaya jasa kontraktor tercatat 70 juta rupiah."},
+    {"step_id": 4, "text": "Total pengeluaran sejauh ini adalah 180 juta rupiah dari anggaran."},
+    {"step_id": 5, "text": "Masih tersisa sekitar 20 juta rupiah untuk pekerjaan finishing."}
+  ]},
+  {"id": "sci-01", "domain": "science", "steps": [
+    {"step_id": 1, "text": "Water boils at 100 degrees Celsius at standard atmospheric pressure."},
+    {"step_id": 2, "text": "At higher altitudes the atmospheric pressure is lower than at sea level."},
+    {"step_id": 3, "text": "Lower pressure reduces the boiling point of water."},
+    {"step_id": 4, "text": "In high mountain regions water can boil at around 90 degrees Celsius."},
+    {"step_id": 5, "text": "Cooking times at altitude are therefore longer because the water is cooler while boiling."}
+  ]},
+  {"id": "sci-02", "domain": "science", "steps": [
+    {"step_id": 1, "text": "Photosynthesis converts carbon dioxide and water into glucose using light energy."},
+    {"step_id": 2, "text": "The process takes place mainly in the chloroplasts of plant leaves."},
+    {"step_id": 3, "text": "Chlorophyll absorbs mostly red and blue light while reflecting green."},
+    {"step_id": 4, "text": "This reflection is why most leaves appear green to the human eye."},
+    {"step_id": 5, "text": "Plants in low light conditions often grow larger leaves to capture more light."}
+  ]},
+  {"id": "sci-03", "domain": "science", "steps": [
+    {"step_id": 1, "text": "The human heart pumps roughly five liters of blood per minute at rest."},
+    {"step_id": 2, "text": "During intense exercise cardiac output can rise to over twenty liters per minute."},
+    {"step_id": 3, "text": "The increase comes from both a faster heart rate and a larger stroke volume."},
+    {"step_id": 4, "text": "Regular endurance training improves stroke volume over time."},
+    {"step_id": 5, "text": "Trained athletes therefore often have lower resting heart rates than untrained people."}
+  ]},
+  {"id": "sci-04", "domain": "science", "steps": [
+    {"step_id": 1, "text": "Lithium-ion batteries store energy through the movement of lithium ions between electrodes."},
+    {"step_id": 2, "text": "Charging moves the ions from the cathode to the anode."},
+    {"step_id": 3, "text": "Repeated charge cycles gradually degrade the electrode materials."},
+    {"step_id": 4, "text": "Most consumer batteries retain about eighty percent capacity after five hundred full cycles."},
+    {"step_id": 5, "text": "Avoiding extreme temperatures helps slow this degradation."}
+  ]},
+  {"id": "sci-05", "domain": "science", "steps": [
+    {"step_id": 1, "text": "Gunung berapi terbentuk di zona pertemuan lempeng tektonik."},
+    {"step_id": 2, "text": "Indonesia terletak di pertemuan tiga lempeng besar sehingga memiliki banyak gunung berapi aktif."},
+    {"step_id": 3, "text": "Aktivitas vulkanik dipantau melalui sensor seismik dan pengamatan visual."},
+    {"step_id": 4, "text": "Peningkatan gempa vulkanik sering menjadi tanda awal aktivitas magma."},
+    {"step_id": 5, "text": "Status gunung dinaikkan bila indikator-indikator tersebut menunjukkan tren peningkatan."}
+  ]},
+  {"id": "proc-01", "domain": "procedural", "steps": [
+    {"step_id": 1, "text": "To deploy the service, first build the container image from the release branch."},
+    {"step_id": 2, "text": "Next, push the image to the internal registry with the version tag."},
+    {"step_id": 3, "text": "Update the staging manifest to reference the new image tag."},
+    {"step_id": 4, "text": "Run the smoke test suite against the staging environment."},
+    {"step_id": 5, "text": "If the smoke tests pass, promote the same image to production."}
+  ]},
+  {"id": "proc-02", "domain": "procedural", "steps": [
+    {"step_id": 1, "text": "Untuk membuat rendang, potong daging sapi menjadi ukuran sedang."},
+    {"step_id": 2, "text": "Haluskan bumbu berupa cabai, bawang merah, bawang putih, dan lengkuas."},
+    {"step_id": 3, "text": "Tumis bumbu halus hingga harum lalu masukkan daging dan santan."},
+    {"step_id": 4, "text": "Masak dengan api kecil sambil sesekali diaduk selama kurang lebih empat jam."},
+    {"step_id": 5, "text": "Rendang siap disajikan ketika kuah mengering dan berwarna cokelat gelap."}
+  ]},
+  {"id": "proc-03", "domain": "procedural", "steps": [
+    {"step_id": 1, "text": "Backup dimulai dengan mengekspor basis data ke berkas dump terkompresi."},
+    {"step_id": 2, "text": "Berkas dump kemudian dienkripsi sebelum dipindahkan."},
+    {"step_id": 3, "text": "Salinan terenkripsi diunggah ke penyimpanan objek di dua wilayah berbeda."},
+    {"step_id": 4, "text": "Skrip verifikasi membandingkan checksum berkas sumber dan berkas unggahan."},
+    {"step_id": 5, "text": "Proses dianggap selesai setelah checksum cocok dan log backup diperbarui."}
+  ]},
+  {"id": "proc-04", "domain": "procedural", "steps": [
+    {"step_id": 1, "text": "Start the onboarding by creating the new employee's account in the directory service."},
+    {"step_id": 2, "text": "Assign the account to the appropriate team groups and mailing lists."},
+    {"step_id": 3, "text": "Provision a laptop with the standard development image."},
+    {"step_id": 4, "text": "Schedule the security briefing within the first week."},
+    {"step_id": 5, "text": "Confirm completion of all onboarding steps in the HR checklist."}
+  ]},
+  {"id": "proc-05", "domain": "procedural", "steps": [
+    {"step_id": 1, "text": "Proses klaim asuransi dimulai dengan mengisi formulir daring."},
+    {"step_id": 2, "text": "Lampirkan foto kerusakan dan salinan polis pada formulir tersebut."},
+    {"step_id": 3, "text": "Tim penilai akan meninjau dokumen dalam waktu tiga hari kerja."},
+    {"step_id": 4, "text": "Jika disetujui, surveyor akan menjadwalkan inspeksi lapangan."},
+    {"step_id": 5, "text": "Pembayaran klaim diproses setelah laporan inspeksi diterima."}
+  ]},
+  {"id": "geo-01", "domain": "geography", "steps": [
+    {"step_id": 1, "text": "The Mekong River flows through six countries in Southeast Asia."},
+    {"step_id": 2, "text": "It originates on the Tibetan Plateau and empties into the South China Sea."},
+    {"step_id": 3, "text": "The river delta in Vietnam is a major rice-producing region."},
+    {"step_id": 4, "text": "Seasonal flooding deposits nutrient-rich sediment across the delta."},
+    {"step_id": 5, "text": "Farmers time their planting cycles around these seasonal floods."}
+  ]},
+  {"id": "geo-02", "domain": "geography", "steps": [
+    {"step_id": 1, "text": "Jakarta is located on the northwest coast of Java."},
+    {"step_id": 2, "text": "The city sits on low-lying land crossed by thirteen rivers."},
+    {"step_id": 3, "text": "Parts of northern Jakarta lie below sea level and face regular flooding."},
+    {"step_id": 4, "text": "Land subsidence from groundwater extraction worsens the flooding risk."},
+    {"step_id": 5, "text": "The government has invested in sea walls and improved drainage to manage the risk."}
+  ]},
+  {"id": "geo-03", "domain": "geography", "steps": [
+    {"step_id": 1, "text": "The Sahara is the largest hot desert in the world."},
+    {"step_id": 2, "text": "It spans roughly nine million square kilometers across North Africa."},
+    {"step_id": 3, "text": "Daytime temperatures commonly exceed forty degrees Celsius in summer."},
+    {"step_id": 4, "text": "Despite the heat, the desert supports oasis settlements around groundwater sources."},
+    {"step_id": 5, "text": "Trade routes have connected these oases for centuries."}
+  ]},
+  {"id": "geo-04", "domain": "geography", "steps": [
+    {"step_id": 1, "text": "Danau Toba di Sumatera Utara adalah danau vulkanik terbesar di dunia."},
+    {"step_id": 2, "text": "Danau ini terbentuk dari letusan supervulkan puluhan ribu tahun lalu."},
+    {"step_id": 3, "text": "Di tengah danau terdapat Pulau Samosir yang berpenghuni."},
+    {"step_id": 4, "text": "Kawasan Toba kini menjadi destinasi wisata unggulan nasional."},
+    {"step_id": 5, "text": "Pemerintah mengembangkan infrastruktur jalan dan bandara untuk mendukung pariwisata di sana."}
+  ]},
+  {"id": "geo-05", "domain": "geography", "steps": [
+    {"step_id": 1, "text": "Norway has an extensive coastline shaped by glacial fjords."},
+    {"step_id": 2, "text": "The fjords were carved by glaciers during successive ice ages."},
+    {"step_id": 3, "text": "Deep fjord waters allow large vessels to dock close to small coastal towns."},
+    {"step_id": 4, "text": "Coastal shipping remains an important transport link for these communities."},
+    {"step_id": 5, "text": "Tourism on the fjord routes peaks during the summer months."}
+  ]},
+  {"id": "biz-01", "domain": "narrative", "steps": [
+    {"step_id": 1, "text": "The support team received a spike of tickets after the Tuesday release."},
+    {"step_id": 2, "text": "Most tickets reported slow loading on the dashboard page."},
+    {"step_id": 3, "text": "Engineering traced the slowdown to an unindexed database query introduced in the release."},
+    {"step_id": 4, "text": "A hotfix adding the missing index was deployed Wednesday morning."},
+    {"step_id": 5, "text": "Ticket volume returned to normal levels within a day of the hotfix."}
+  ]},
+  {"id": "biz-02", "domain": "narrative", "steps": [
+    {"step_id": 1, "text": "The bakery introduced a new sourdough loaf in February."},
+    {"step_id": 2, "text": "Customer feedback in the first month was largely positive."},
+    {"step_id": 3, "text": "Weekend batches consistently sold out before noon."},
+    {"step_id": 4, "text": "The bakery increased weekend production by half in March."},
+    {"step_id": 5, "text": "Even with higher production, weekend demand still occasionally exceeds supply."}
+  ]},
+  {"id": "biz-03", "domain": "narrative", "steps": [
+    {"step_id": 1, "text": "Tim produk meluncurkan fitur pembayaran cicilan pada bulan April."},
+    {"step_id": 2, "text": "Adopsi fitur tumbuh stabil di kalangan pengguna usia muda."},
+    {"step_id": 3, "text": "Data menunjukkan nilai keranjang rata-rata naik pada transaksi cicilan."},
+    {"step_id": 4, "text": "Tim risiko memantau tingkat gagal bayar selama tiga bulan pertama."},
+    {"step_id": 5, "text": "Tingkat gagal bayar sejauh ini masih dalam batas yang direncanakan."}
+  ]},
+  {"id": "biz-04", "domain": "narrative", "steps": [
+    {"step_id": 1, "text": "The library extended its opening hours during exam season."},
+    {"step_id": 2, "text": "Student visits increased noticeably in the evening slots."},
+    {"step_id": 3, "text": "Staff scheduling was adjusted to cover the added hours."},
+    {"step_id": 4, "text": "A survey collected student feedback on the extended schedule."},
+    {"step_id": 5, "text": "Based on the positive responses, the library plans to repeat the program next semester."}
+  ]},
+  {"id": "biz-05", "domain": "narrative", "steps": [
+    {"step_id": 1, "text": "The logistics company piloted electric vans on three urban delivery routes."},
+    {"step_id": 2, "text": "Fuel and maintenance costs on the pilot routes dropped during the trial."},
+    {"step_id": 3, "text": "Drivers reported quieter operation and easier city maneuvering."},
+    {"step_id": 4, "text": "Charging schedules were integrated into the overnight depot routine."},
+    {"step_id": 5, "text": "The company is now evaluating an expansion of the electric fleet to ten routes."}
+  ]},
+  {"id": "qa-01", "domain": "multi-turn", "steps": [
+    {"step_id": 1, "text": "User asks why the mobile app logs them out every morning."},
+    {"step_id": 2, "text": "Support explains that session tokens expire after twelve hours of inactivity."},
+    {"step_id": 3, "text": "The user confirms they typically use the app only in the evening."},
+    {"step_id": 4, "text": "Support suggests enabling the remember-me option to extend the session."},
+    {"step_id": 5, "text": "The user enables the option and confirms the morning logouts have stopped."}
+  ]},
+  {"id": "qa-02", "domain": "multi-turn", "steps": [
+    {"step_id": 1, "text": "Pengguna menanyakan cara mengubah alamat pengiriman pesanan yang sudah dibuat."},
+    {"step_id": 2, "text": "CS menjelaskan bahwa alamat masih bisa diubah selama pesanan belum dikemas."},
+    {"step_id": 3, "text": "Pengguna mengecek status pesanan dan ternyata masih diproses."},
+    {"step_id": 4, "text": "CS memandu pengguna mengubah alamat melalui menu detail pesanan."},
+    {"step_id": 5, "text": "Alamat berhasil diperbarui dan pengguna menerima email konfirmasi."}
+  ]},
+  {"id": "qa-03", "domain": "multi-turn", "steps": [
+    {"step_id": 1, "text": "A customer reports that exported CSV files show garbled characters in Excel."},
+    {"step_id": 2, "text": "The agent identifies the issue as a missing byte-order mark for UTF-8 encoding."},
+    {"step_id": 3, "text": "The agent shares a workaround using the import wizard with UTF-8 selected."},
+    {"step_id": 4, "text": "The customer confirms the workaround displays the characters correctly."},
+    {"step_id": 5, "text": "The agent files a product request to add the byte-order mark to future exports."}
+  ]},
+  {"id": "qa-04", "domain": "multi-turn", "steps": [
+    {"step_id": 1, "text": "Pengguna melaporkan tagihan langganan terpotong dua kali bulan ini."},
+    {"step_id": 2, "text": "CS memeriksa riwayat transaksi dan menemukan duplikasi pembayaran pada tanggal yang sama."},
+    {"step_id": 3, "text": "CS mengajukan pengembalian dana untuk transaksi duplikat tersebut."},
+    {"step_id": 4, "text": "Pengembalian dana diproses ke metode pembayaran asal dalam lima hari kerja."},
+    {"step_id": 5, "text": "Pengguna mengonfirmasi dana sudah kembali dan kasus ditutup."}
+  ]},
+  {"id": "qa-05", "domain": "multi-turn", "steps": [
+    {"step_id": 1, "text": "A user asks how to share a project board with an external contractor."},
+    {"step_id": 2, "text": "The assistant explains guest accounts with view-only or edit permissions."},
+    {"step_id": 3, "text": "The user chooses view-only access for the contractor."},
+    {"step_id": 4, "text": "The assistant walks through sending the guest invitation from board settings."},
+    {"step_id": 5, "text": "The contractor accepts the invitation and can now view the board."}
+  ]}
+]

@@ -1,0 +1,45 @@
+{
+  "id": "organic-07",
+  "question": "Should the flight be delayed for the connecting passengers?",
+  "source": "Flight GA-204 departs at 14:30 with 143 passengers booked. Twelve passengers connect from flight GA-118, which lands at 13:50, a 25-minute walk from the departure gate. Policy allows delays up to 20 minutes if more than 10 connecting passengers are affected. A delay beyond 15 minutes forfeits the departure slot, adding a further 40-minute wait.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Flight GA-204 departs at 14:30 with 143 passengers booked, including 12 connecting from flight GA-118 which lands at 13:50. The policy allows up to a 20-minute delay for more than 10 connecting passengers, and a further 40-minute wait if the slot is forfeited after exceeding this limit.",
+      "metadata": {
+        "latency_s": 3.52
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine whether Flight GA-204 should be delayed for its connecting passengers, let's analyze the given facts:\n\n1. Flight GA-118 lands at 13:50.\n2. The connecting passengers are expected to arrive 1 hour before their departure from GA-204 (i.e., 13:50 - 1:00 = 12:50).\n3. There are 12 connecting passengers, which is more than the allowed limit of 10.\n4. The policy allows up to a 20-minute delay for each additional set of over 10 connecting passengers beyond the initial group.\n\nGiven that there are 12 connecting passengers (exceeding the 10-passenger threshold by 2), the first 10 passengers would have their arrival time adjusted by 20 minutes. The remaining 2 passengers' arrival time should also be delayed, but no further delay is allowed beyond this initial 40-minute buffer (as they are over the limit of additional sets).\n\nTherefore, connecting",
+      "metadata": {
+        "latency_s": 5.19
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, Flight GA-204 should be delayed by a total of 40 minutes to accommodate its excess of connecting passengers. This adjustment will ensure that all connecting passengers arrive at GA-204 within the allowable time frame, maintaining flight integrity and passenger safety.\n\nRecommendation: The airline management should promptly communicate this delay decision to both the originating and arriving flights' crew and passengers to manage expectations and prepare accordingly.",
+      "metadata": {
+        "latency_s": 3.65
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The flight GA-204 will be delayed by 40 minutes to accommodate connecting passengers. Communication with all relevant parties is crucial to manage expectations and ensure smooth operations.",
+      "metadata": {
+        "latency_s": 2.88
+      }
+    }
+  ]
+}

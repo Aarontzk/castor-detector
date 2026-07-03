@@ -1,0 +1,45 @@
+{
+  "id": "organic-08",
+  "question": "Berapa sisa anggaran proyek dan cukupkah untuk fase akhir?",
+  "source": "Anggaran proyek total 500 juta rupiah. Fase satu menghabiskan 180 juta, fase dua 210 juta. Fase akhir diperkirakan butuh 95 juta rupiah. Ada dana kontingensi terpisah 50 juta yang hanya boleh dipakai dengan persetujuan direksi.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Anggaran total proyek adalah 500 juta rupiah. Fase akhir diperkirakan butuh 95 juta rupiah. Ada dana kontingensi terpisah sebesar 50 juta yang hanya boleh dipakai dengan persetujuan direksi.",
+      "metadata": {
+        "latency_s": 3.32
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "Based on the provided facts, here's how we can calculate the remaining budget for the project and determine if it is sufficient for the final phase:\n\n1. Total available budget: 500 juta rupiah.\n2. Budget needed for the final phase: 95 juta rupiah.\n3. Contingency fund available (under director's approval): 50 juta rupiah.\n\nTo find the remaining budget after allocating for the final phase and considering the contingency fund, we subtract the required budget from the total budget:\nRemaining budget = Total budget - Budget needed for final phase\nRemaining budget = 500 juta - 95 juta\nRemaining budget = 405 juta rupiah.\n\nIf the contingency fund is approved, it can be added to this remaining budget:\nTotal available budget after approval of contingency: Remaining budget + Contingency fund\nTotal available budget after approval of contingency: 405 juta + 50 juta\nTotal available budget after approval of contingency = 455 juta",
+      "metadata": {
+        "latency_s": 5.32
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, there is a remaining budget of 455 million rupiah after allocating for the final phase and considering the approved contingency fund. However, this amount may not be sufficient to cover all potential unforeseen costs in the final phase. A recommendation would be to reassess and potentially increase the contingency fund or explore other cost-saving measures to ensure adequate resources are available for the project's completion.",
+      "metadata": {
+        "latency_s": 3.53
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The remaining budget for the final phase is 455 million rupiah, but this might not cover unforeseen costs. It is recommended to reassess and possibly increase the contingency fund or seek additional savings for a secure project completion.",
+      "metadata": {
+        "latency_s": 3.07
+      }
+    }
+  ]
+}

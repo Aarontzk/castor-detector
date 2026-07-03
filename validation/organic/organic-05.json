@@ -1,0 +1,45 @@
+{
+  "id": "organic-05",
+  "question": "Did the marketing campaign meet its target?",
+  "source": "The campaign targeted 3,000 new sign-ups with a budget of 20,000 dollars. It achieved 3,420 sign-ups but spent 24,500 dollars. The cost-per-signup target was 7 dollars. Sign-ups from the partner channel, 400 of the total, are excluded from the campaign's own performance count.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The campaign targeted 3,000 new sign-ups with a budget of $20,000. It achieved 3,420 sign-ups but spent $24,500. The cost-per-signup target was $7. Sign-ups from the partner channel were excluded from the performance count.",
+      "metadata": {
+        "latency_s": 3.29
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if the marketing campaign met its target, we need to calculate the cost per signup and compare it with the target.\n\nFirst, let's find the actual average cost per sign-up:\n- Total number of sign-ups achieved: 3,420\n- Total budget spent: $24,500\n\nCost per sign-up = Total budget / Number of sign-ups\n\\[ \\text{Cost per sign-up} = \\frac{\\$24,500}{3,420} \\approx \\$7.13 \\]\n\nThe target cost-per-signup was set at $7.\n\nComparing the actual cost to the target:\n- Actual Cost per signup: $7.13\n- Target Cost per signup: $7\n\nSince $7.13 is higher than $7, the campaign did not meet its cost-per-sign-up target. Therefore, based on the given facts, we can conclude that the marketing campaign did not meet its target.",
+      "metadata": {
+        "latency_s": 5.2
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, the marketing campaign did not meet its target as it exceeded the set cost per sign-up of $7 by approximately $0.13 per signup. To improve future campaigns, a recommendation would be to optimize the targeting and messaging to reduce acquisition costs without compromising the quality of leads.",
+      "metadata": {
+        "latency_s": 3.22
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The marketing campaign exceeded its cost per sign-up target but still had room for improvement in optimization of targeting and messaging. Future campaigns should focus on reducing acquisition costs while maintaining lead quality.",
+      "metadata": {
+        "latency_s": 2.9
+      }
+    }
+  ]
+}

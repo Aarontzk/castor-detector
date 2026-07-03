@@ -62,6 +62,59 @@ drift ≈ 0.815 (p95 anchor), aggregate ≈ 0.712.
 | Confidence-language tracker | keep (secondary) | certainty_inflation 83% needs it; weight stays 0.2 |
 | Weighted aggregator | keep, recalibrate in v1 | dilutes drift spikes (context_swap); weights are manual defaults |
 
+## Organic validation (semi-natural, PRD S12.2) — added 2026-07-03
+
+**Setup:** 8 real agent chains run via Ollama `qwen2.5:3b` (deviation from PRD's
+qwen2.5-coder/phi4-mini — it's what was installed; a small general model is
+*more* hallucination-prone, which suits this test). Linear 4-agent chain
+(extractor → analyst → reasoner → writer) with an information bottleneck: each
+agent sees only the previous agent's output, never the source document. Anchor
+override = source document. Tasks: 8 fact-grounded questions (EN+ID), manually
+annotated against the sources. Reproduce: `validation/agent_chain.py` +
+`validation/analyze_organic.py`.
+
+**Every single chain (8/8) cascaded organically.** No injection needed —
+qwen2.5:3b at temperature 0.8 produced real errors in all runs.
+
+| Chain | Annotated origin (manual) | Castor first flag | Hit |
+|---|---|---|---|
+| 01 profit | step 2 (subtracts excluded grant) | step 3 (entail 0.001) | ±1 |
+| 02 warehouse | step 2 (claims 380 ≥ 450) | step 2 (entail 0.060) | **exact** |
+| 03 reactor | step 1 (omits recalibration + 74° rule); step 4 fabricates "74°" | step 2 | ±1; step-4 fabrication MISSED (entail 0.990) |
+| 04 buses | step 2 (nonsense math, wrong ceiling) | step 2 (entail 0.003) | **exact** |
+| 05 campaign | step 1 (drops the excluded-400 figure) | step 2 | ±1 |
+| 06 panen (ID) | step 1 (drops planting date) | step 2 (drift 0.732 — ID→EN language switch) | ±1 |
+| 07 flight | step 1 (drops walk time, merges policies) → step 2 fabricates rules | step 2 | ±1 |
+| 08 anggaran (ID) | step 1 (omits phase-1/2 spend) → step 2 wrong remainder | step 2 | ±1 |
+
+**Results:** step-level flags fired in 8/8 cascades; first flag within ±1 of
+the annotated origin in **8/8**, exact in 2/8. Trajectory-level verdict
+(aggregate > calibrated θ) fired in **0/8** — the θ calibrated on the synthetic
+clean set does not transfer to organic chains; the per-signal flags (mostly
+entailment collapse, 0.001–0.06) did all the real work. No organic FPR is
+reported: the model produced zero clean runs to measure it on.
+
+**Findings that matter for v1:**
+
+1. **Dominant organic failure mode = extraction OMISSION (5/8 origins).**
+   A summary that silently drops the planting date or the phase-1/2 spend is
+   drift-invisible and entailment-valid *by construction* — a faithful subset
+   looks perfect to both signals. The synthetic toolkit (FR-10) doesn't even
+   have an omission kind. v1 needs a completeness signal (reverse entailment:
+   do the source's key facts entail into the extraction?).
+2. **NLI is blind to arithmetic.** Wrong math stated fluently scores as
+   entailed (01 step 2: 0.834 despite subtracting the excluded grant; 03
+   step 4: 0.990 on a fabricated "74 degrees"). Matches the synthetic finding
+   (numeric fabrication 30% detection). Claim-level numeric checks stay the
+   #1 v1 priority.
+3. **Verdict rule is the weak link, not the signals.** v1: verdict should
+   trigger on per-signal evidence (e.g. entailment collapse below τ on a
+   conclusive step), not only on the weighted aggregate.
+4. **Language-switch artifact:** the chain answering an Indonesian question in
+   English produced the run's largest drift (0.732) — mpnet is EN-centric, so
+   code-switching reads as huge semantic drift. For ID pipelines, swap in a
+   multilingual embedder (the `Embedder` interface exists for exactly this).
+
 ## Known limitations of this validation
 
 - Synthetic-only errors (FR-10). Semi-natural Ollama-generated trajectories (PRD S12.2) not run — Ollama not installed on this machine; queued as an open task.

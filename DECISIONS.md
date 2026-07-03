@@ -14,3 +14,5 @@
 - 2026-07-03 — CLI exit codes: 0 clean, 1 cascade, 2 monitoring failure (CI-friendly, UC-3/V5).
 - 2026-07-03 — Semi-natural Ollama dataset (PRD S12.2) skipped: Ollama not installed on dev machine. Logged in STATUS as open item, not silently dropped.
 - 2026-07-03 — PyPI distribution name = `castor-detector` (owner decision, PRD S16.3 resolved). Import name stays `castor`; CLI stays `castor`.
+- 2026-07-03 — Organic validation model = qwen2.5:3b (installed on owner machine), not PRD's qwen2.5-coder/phi4-mini. Deviation accepted: small general model is more hallucination-prone, better for capturing organic cascades.
+- 2026-07-03 — Organic chain design: 4 agents with information bottleneck (each sees only previous output, source doc withheld downstream); anchor override = source doc. Reproduces H-05/H-10 organically — 8/8 runs cascaded without injection.

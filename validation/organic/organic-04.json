@@ -1,0 +1,45 @@
+{
+  "id": "organic-04",
+  "question": "How many buses are needed for the school trip?",
+  "source": "The school trip includes 174 students and 12 teachers. Each bus seats 45 passengers. Two students use wheelchairs, and each wheelchair space replaces 3 regular seats. School policy requires at least one teacher per bus.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The school trip includes 174 students and 12 teachers, making a total of 186 people. Two students use wheelchairs, replacing 6 regular seats (since each wheelchair space replaces 3 regular seats). School policy requires at least one teacher per bus. Each bus seats 45 passengers.",
+      "metadata": {
+        "latency_s": 3.33
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "First, we calculate the number of regular seats needed for all students and teachers:\n- Total people: 174 students + 12 teachers = 186 people.\n- Subtracting the two wheelchair spaces (for a total of 30 regular seats per wheelchair space): 186 - (2 * 3) = 180 regular seats.\n\nNext, we add back for the replacement of regular seats by wheelchairs: \n- Since each wheelchair replaces 3 regular seats and there are two wheelchair spaces:\n- Replacement calculation: 6 + (2 * 3) = 12 additional seats needed.\n\nTotal number of passengers per bus is:\n- Seats per bus: 45.\n- Total passengers including teachers: 45 (regular) + 12 (wheelchair replacement) = 57 passengers per bus.\n\nFinally, to find the number of buses required:\n- Total people needing transportation: 186.\n- Number of buses needed: Ceiling(186 / 57) = 3 buses.\n\nTherefore",
+      "metadata": {
+        "latency_s": 5.34
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis provided, a total of 3 buses are needed for the school trip. To further optimize resource utilization and ensure comfort and safety, it is recommended to use a combination of full-sized regular seats and wheelchair spaces on each bus. This approach would allow each bus to accommodate more passengers efficiently while maintaining accessibility requirements.",
+      "metadata": {
+        "latency_s": 3.38
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "A total of 3 buses are needed for the school trip, with a recommendation to use a mix of regular seats and wheelchair spaces on each bus for optimal utilization.",
+      "metadata": {
+        "latency_s": 2.85
+      }
+    }
+  ]
+}

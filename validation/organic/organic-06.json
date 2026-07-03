@@ -1,0 +1,45 @@
+{
+  "id": "organic-06",
+  "question": "Kapan sebaiknya panen dilakukan?",
+  "source": "Padi varietas Ciherang biasanya dipanen 115 sampai 125 hari setelah tanam. Sawah ini ditanami tanggal 10 Maret. Curah hujan tinggi diperkirakan mulai minggu kedua Juli. Panen saat hujan menurunkan kualitas gabah dan menaikkan biaya pengeringan sekitar 20 persen.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Panenan varietas Ciherang biasanya dilakukan antara 115 sampai 125 hari setelah tanam. Curah hujan tinggi mulai pada minggu kedua Juli, yang dapat berdampak negatif pada kualitas gabah dan meningkatkan biaya pengeringan sekitar 20%.",
+      "metadata": {
+        "latency_s": 3.55
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "Based on the extracted facts, we can determine that the best time to harvest Ciherang variety is between 115 and 125 days after planting. However, it's important to note that there is an increase in harvesting costs due to higher rainfall starting around the second week of July, which could negatively affect the quality of the rice. Therefore, if we are considering factors such as weather conditions impacting rice quality or cost, the harvest timing should be planned with care during and after the peak rainy season.",
+      "metadata": {
+        "latency_s": 3.75
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, the best time to harvest Ciherang variety is between 115 and 125 days after planting. Considering factors like increased harvesting costs due to higher rainfall starting around the second week of July which can negatively affect rice quality, it is recommended to plan the harvest timing with care during and after this peak rainy season.",
+      "metadata": {
+        "latency_s": 3.34
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The optimal time to harvest Ciherang variety is between 115 to 125 days post-planting. However, given increased costs due to higher rainfall starting around mid-July, careful planning should be done during and after the peak rainy season.",
+      "metadata": {
+        "latency_s": 3.16
+      }
+    }
+  ]
+}

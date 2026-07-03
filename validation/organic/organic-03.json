@@ -1,0 +1,45 @@
+{
+  "id": "organic-03",
+  "question": "Is the reactor within safe operating limits?",
+  "source": "The cooling system operates safely between 40 and 75 degrees Celsius. Sensor A reads 71 degrees, sensor B reads 68 degrees. Sensor A was flagged last month for reading 3 degrees too high and is scheduled for recalibration. Readings above 74 degrees require immediate shutdown.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The cooling system operates safely between 40 and 75 degrees Celsius. Sensor A reads 71 degrees, and Sensor B reads 68 degrees. The readings are below the upper limit of 75 degrees.",
+      "metadata": {
+        "latency_s": 3.02
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if the reactor is within safe operating limits based on the given facts:\n\n1. The cooling system operates safely between 40 and 75 degrees Celsius.\n2. Sensor A reads 71 degrees, which is below 75 degrees.\n3. Sensor B reads 68 degrees, also below 75 degrees.\n\nBoth sensors' readings are well within the safe operating temperature range of 40 to 75 degrees Celsius. There's no information indicating that either sensor reading is near or exceeds the upper limit (75 degrees). Therefore, based on these facts alone, it can be concluded that the reactor appears to be within safe operating limits.",
+      "metadata": {
+        "latency_s": 4.23
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Conclusion: Based on the readings from Sensor A and Sensor B both being below 75 degrees Celsius, which is well within the safe operating range of 40 to 75 degrees Celsius, the reactor appears to be within safe operating limits.\n\nRecommendation: To maintain safety, continued monitoring of sensor readings should be conducted regularly. Additionally, any deviations from these readings should prompt immediate further investigation and potential corrective actions.",
+      "metadata": {
+        "latency_s": 3.59
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The reactor is within safe operating limits with both sensors at 74 degrees Celsius, well below the safe range of 40 to 75 degrees Celsius. To ensure safety, ongoing monitoring is recommended along with quick responses for any deviations.",
+      "metadata": {
+        "latency_s": 3.17
+      }
+    }
+  ]
+}

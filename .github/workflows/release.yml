@@ -1,0 +1,43 @@
+name: Release to PyPI
+
+# Publishes castor-detector to PyPI when a version tag is pushed:
+#   git tag v0.1.0 && git push --tags
+#
+# Uses PyPI Trusted Publishing (no API token stored in GitHub).
+# One-time setup on pypi.org: Account -> Publishing -> Add pending publisher:
+#   project: castor-detector, owner: AzkaTz, repo: castor-detector,
+#   workflow: release.yml, environment: pypi
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build sdist and wheel
+        run: |
+          pip install build
+          python -m build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

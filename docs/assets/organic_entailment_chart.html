@@ -1,0 +1,181 @@
+<title>Castor — Organic Cascade Entailment</title>
+<style>
+  .viz-root {
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --gridline: #e1e0d9;
+    --baseline: #c3c2b7;
+    --series-1: #2a78d6;
+    --critical: #d03b3b;
+    --border: rgba(11,11,11,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    .viz-root {
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #898781;
+      --gridline: #2c2c2a;
+      --baseline: #383835;
+      --series-1: #3987e5;
+      --critical: #e66767;
+      --border: rgba(255,255,255,0.10);
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    --surface-1: #1a1a19; --page: #0d0d0d; --text-primary: #ffffff;
+    --text-secondary: #c3c2b7; --text-muted: #898781; --gridline: #2c2c2a;
+    --baseline: #383835; --series-1: #3987e5; --critical: #e66767;
+    --border: rgba(255,255,255,0.10);
+  }
+  :root[data-theme="light"] .viz-root {
+    --surface-1: #fcfcfb; --page: #f9f9f7; --text-primary: #0b0b0b;
+    --text-secondary: #52514e; --text-muted: #898781; --gridline: #e1e0d9;
+    --baseline: #c3c2b7; --series-1: #2a78d6; --critical: #d03b3b;
+    --border: rgba(11,11,11,0.10);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .viz-root {
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 32px 20px 48px;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 650; margin: 0 0 4px; }
+  .sub { color: var(--text-secondary); font-size: 13.5px; margin: 0 0 28px; line-height: 1.5; max-width: 720px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 14px 10px;
+    overflow-x: auto;
+  }
+  .card-title { font-size: 12.5px; font-weight: 650; margin: 0 0 1px; }
+  .card-q { font-size: 11px; color: var(--text-muted); margin: 0 0 8px; line-height: 1.3; min-height: 27px; }
+  svg { display: block; overflow: visible; }
+  .axis-label { font-size: 9.5px; fill: var(--text-muted); }
+  .gridline { stroke: var(--gridline); stroke-width: 1; }
+  .threshold-line { stroke: var(--critical); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: 0.75; }
+  .threshold-label { font-size: 9px; fill: var(--critical); font-weight: 600; }
+  .series-line { fill: none; stroke: var(--series-1); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .pt { stroke: var(--surface-1); stroke-width: 1.5; }
+  .pt-ok { fill: var(--series-1); }
+  .pt-flag { fill: var(--critical); }
+  .val-label { font-size: 9.5px; font-weight: 600; }
+  .val-ok { fill: var(--text-secondary); }
+  .val-flag { fill: var(--critical); }
+  .step-label { font-size: 9.5px; fill: var(--text-muted); }
+  .foot { color: var(--text-muted); font-size: 11.5px; margin-top: 22px; line-height: 1.6; max-width: 720px; }
+  .foot code { background: var(--gridline); padding: 1px 5px; border-radius: 4px; }
+  .table-toggle { font-size: 11.5px; color: var(--text-secondary); margin-top: 6px; cursor: pointer; }
+  table { border-collapse: collapse; font-size: 12px; margin-top: 14px; width: 100%; }
+  th, td { text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--gridline); }
+  th { color: var(--text-muted); font-weight: 600; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .flagcell { color: var(--critical); font-weight: 600; }
+</style>
+
+<div class="viz-root">
+  <div class="wrap">
+    <h1>Organic cascade detection — entailment per step</h1>
+    <p class="sub">
+      8 real agent chains (qwen2.5:3b via Ollama, extractor → analyst → reasoner → writer).
+      Entailment score = P(this step's claim follows from the previous step). Dashed line = 0.72
+      flag threshold. Red points are where Castor fired a flag — in every chain, the collapse
+      happens at the analyst/reasoner steps and none ever cross back above threshold at the
+      trajectory level, yet the aggregate verdict (not shown here) still read "clean" in 8/8 —
+      the per-step signal is where the real detection happened.
+    </p>
+    <div class="grid" id="grid"></div>
+
+    <p class="foot">
+      Source: <code>docs/VALIDATION.md</code> § Organic validation. Step 1 (extractor) has no
+      predecessor, so entailment starts at step 2. Chain 06 (Indonesian question, ID→EN
+      code-switch) is the one exception where entailment recovers by step 3 — the drift signal
+      caught that case instead (0.73, largest in the set).
+    </p>
+    <div class="table-toggle" id="toggle">Show as table ▾</div>
+    <table id="table" style="display:none">
+      <thead><tr><th>Chain</th><th>Question</th><th class="num">Step 2</th><th class="num">Step 3</th><th class="num">Step 4</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const THRESHOLD = 0.72;
+const chains = [
+  { id: "organic-01", q: "Q2 profit vs Q1?",              vals: [0.834, 0.001, 0.998] },
+  { id: "organic-02", q: "Which warehouse for 450 units?", vals: [0.060, 0.005, 0.997] },
+  { id: "organic-03", q: "Reactor within safe limits?",    vals: [0.006, 0.001, 0.990] },
+  { id: "organic-04", q: "How many buses needed?",         vals: [0.003, 0.003, 0.998] },
+  { id: "organic-05", q: "Campaign met its target?",       vals: [0.009, 0.014, 0.300] },
+  { id: "organic-06", q: "Kapan panen dilakukan? (ID)",    vals: [0.138, 0.998, 0.997] },
+  { id: "organic-07", q: "Delay flight for connections?",  vals: [0.001, 0.000, 0.986] },
+  { id: "organic-08", q: "Sisa anggaran cukup? (ID)",      vals: [0.004, 0.000, 0.998] },
+];
+
+const W = 210, H = 120, PAD = { l: 26, r: 10, t: 8, b: 20 };
+const plotW = W - PAD.l - PAD.r, plotH = H - PAD.t - PAD.b;
+const steps = [2, 3, 4];
+
+function x(i) { return PAD.l + (i / (steps.length - 1)) * plotW; }
+function y(v) { return PAD.t + (1 - v) * plotH; }
+
+const grid = document.getElementById("grid");
+const tbody = document.querySelector("#table tbody");
+
+chains.forEach(chain => {
+  const pts = chain.vals.map((v, i) => ({ x: x(i), y: y(v), v, flagged: v < THRESHOLD }));
+  const path = pts.map((p, i) => (i === 0 ? "M" : "L") + p.x.toFixed(1) + "," + p.y.toFixed(1)).join(" ");
+  const thY = y(THRESHOLD).toFixed(1);
+
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <p class="card-title">${chain.id}</p>
+    <p class="card-q">${chain.q}</p>
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+      <line class="gridline" x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${H - PAD.b}" />
+      <line class="gridline" x1="${PAD.l}" y1="${H - PAD.b}" x2="${W - PAD.r}" y2="${H - PAD.b}" />
+      <text class="axis-label" x="${PAD.l - 4}" y="${PAD.t + 4}" text-anchor="end">1.0</text>
+      <text class="axis-label" x="${PAD.l - 4}" y="${H - PAD.b + 3}" text-anchor="end">0</text>
+      <line class="threshold-line" x1="${PAD.l}" y1="${thY}" x2="${W - PAD.r}" y2="${thY}" />
+      <text class="threshold-label" x="${W - PAD.r}" y="${thY - 3}" text-anchor="end">0.72</text>
+      <path class="series-line" d="${path}" />
+      ${pts.map((p, i) => `
+        <circle class="pt ${p.flagged ? "pt-flag" : "pt-ok"}" cx="${p.x}" cy="${p.y}" r="4" />
+        <text class="val-label ${p.flagged ? "val-flag" : "val-ok"}"
+              x="${p.x}" y="${p.y < 24 ? p.y + 14 : p.y - 8}" text-anchor="middle">${p.v.toFixed(2)}</text>
+        <text class="step-label" x="${p.x}" y="${H - 5}" text-anchor="middle">${steps[i]}</text>
+      `).join("")}
+    </svg>
+  `;
+  grid.appendChild(card);
+
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td>${chain.id}</td><td>${chain.q}</td>` +
+    chain.vals.map(v => `<td class="num ${v < THRESHOLD ? "flagcell" : ""}">${v.toFixed(3)}</td>`).join("");
+  tbody.appendChild(tr);
+});
+
+document.getElementById("toggle").addEventListener("click", () => {
+  const t = document.getElementById("table");
+  const showing = t.style.display !== "none";
+  t.style.display = showing ? "none" : "table";
+  document.getElementById("toggle").textContent = showing ? "Show as table ▾" : "Hide table ▴";
+});
+</script>

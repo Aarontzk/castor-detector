@@ -34,3 +34,9 @@
   3. Verdict rule rework — per-signal triggers (entailment collapse), not aggregate-only; synthetic-calibrated θ missed 8/8 organic cascades that per-step flags caught
   4. p99 calibration or 2-consecutive-flags (synthetic FPR 27%)
   5. Multilingual embedder preset for ID pipelines (ID→EN code-switch read as 0.73 drift)
+  6. Role-aware entailment thresholds — summarization/condensing steps trip the same threshold as reasoning steps (found while building examples/self_healing_chain.py)
+
+## Examples added (owner requests, not core Castor features)
+
+- `examples/delegate_to_ollama.py` — Claude-as-orchestrator delegates to local qwen via Ollama's Anthropic-compatible endpoint; CastorObserver watches live
+- `examples/self_healing_chain.py` — orchestrator-side retry loop using Castor's flags (re-grounds worker in clean facts, max 1 retry, reports "unresolved" honestly if still flagged). Castor itself stays passive per CLAUDE.md hard rule; this loop lives entirely outside it

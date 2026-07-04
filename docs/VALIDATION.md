@@ -115,6 +115,27 @@ reported: the model produced zero clean runs to measure it on.
    code-switching reads as huge semantic drift. For ID pipelines, swap in a
    multilingual embedder (the `Embedder` interface exists for exactly this).
 
+## Self-healing loop demo (owner request, not a Castor feature)
+
+`examples/self_healing_chain.py`: an ORCHESTRATOR-side pattern (Castor stays
+passive) — re-ground the worker with clean facts + Castor's flag reason,
+retry once, keep the original and report "unresolved" if still flagged. Two
+runs on the same 3-step chain:
+
+- Run A: analyst step healed on retry (entailment 0.010 → resolved); writer
+  step unresolved after 2 attempts (entailment stuck at 0.056–0.075).
+- Run B: analyst unresolved after 2 attempts (entailment 0.005–0.006); writer
+  healed on retry (0.384 → resolved).
+
+**Honest caveat found while building this:** the writer role (a condensing
+summary step) trips the entailment threshold more easily than reasoning
+steps, because summarization legitimately drops detail that full entailment
+scoring penalizes — the same threshold (0.72) is applied to a "reason forward"
+transition and a "compress down" transition, which are different tasks. This
+is the heteroskedastic-signal problem the PRD already flags (Section 3.3) for
+threshold profiles — role-aware entailment thresholds are a concrete v1
+candidate this demo surfaces.
+
 ## Known limitations of this validation
 
 - Synthetic-only errors (FR-10). Semi-natural Ollama-generated trajectories (PRD S12.2) not run — Ollama not installed on this machine; queued as an open task.

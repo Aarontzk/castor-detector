@@ -1,0 +1,45 @@
+{
+  "id": "organic-15",
+  "question": "Is the prescribed dosage within the safe daily limit?",
+  "source": "The maximum safe daily dose of the medication is 60 mg per day for adult patients. The patient is prescribed 15 mg three times a day. Patients over 65 years old require a reduced maximum of 45 mg per day. The patient's chart lists their age as 68.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The maximum safe daily dose for adult patients is 60 mg. The patient is prescribed 15 mg three times a day, totaling 45 mg per day. Patients over 65 years old have a reduced maximum of 45 mg per day. The patient's age listed in the chart is 68.",
+      "metadata": {
+        "latency_s": 3.2
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "Based on the provided facts:\n- For adult patients under 65, the maximum safe daily dose is 60 mg.\n- The prescribed dosage for this patient (15 mg three times a day) totals to 45 mg per day.\n- Patients over 65 have a reduced maximum of 45 mg per day.\n\nGiven that the patient's age is listed as 68, which falls into the \"over 65\" category:\nThe prescribed dosage of 15 mg three times a day (totaling 45 mg) aligns with the reduced maximum safe daily limit for patients over 65. Therefore, it means the prescribed dosage is within the safe daily limit for this patient.",
+      "metadata": {
+        "latency_s": 4.06
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Conclusion: The prescribed dosage of 15 mg three times a day is within the safe daily limit for the patient, who is over 65 years old.\n\nRecommendation: Continue with the current prescription as it adheres to the recommended safety guidelines for the patient's age group.",
+      "metadata": {
+        "latency_s": 3.1
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The safe daily limit for the prescribed dosage of 15 mg three times a day is within the recommended range for patients over 65 years old, so continue with the current prescription.",
+      "metadata": {
+        "latency_s": 2.87
+      }
+    }
+  ]
+}

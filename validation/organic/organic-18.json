@@ -1,0 +1,45 @@
+{
+  "id": "organic-18",
+  "question": "How much of the claim will the insurer reimburse?",
+  "source": "The policy covers water damage up to 10,000 dollars per incident with a 500 dollar deductible. The claim submitted totals 8,200 dollars in damage. Damage caused by gradual leaks rather than sudden incidents is excluded from coverage, and the inspector's report flags 1,500 dollars of the claim as gradual-leak damage.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The policy covers water damage up to $10,000 per incident with a $500 deductible. The total submitted claim is $8,200. Damage from gradual leaks is excluded and reported to be $1,500 of the claim.",
+      "metadata": {
+        "latency_s": 3.07
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine how much the insurer will reimburse, we first need to identify which part of the claim is covered by the policy: water damage up to $10,000 per incident with a $500 deductible.\n\nThe total submitted claim is $8,200. Out of this, $1,500 is for gradual leaks and not covered under the policy. Therefore, we need to calculate the amount after applying the deductible to the remaining water damage portion:\n\nRemaining claim amount (after excluding leaks): $8,200 - $1,500 = $6,700\n\nSince the policy covers up to $10,000 per incident with a $500 deductible, the insurer will reimburse $9,700 for this incident ($10,000 total coverage - $300 remaining deductible).\n\nThus, the reimbursement amount is $9,700.",
+      "metadata": {
+        "latency_s": 4.51
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, the insurer will reimburse $9,700 for the water damage incident covered by the policy, after deducting the $500 per-occurrence deductible from the total claim amount of $8,200. \n\nRecommendation: Ensure that future claims are submitted in a way that accurately reflects all covered damages to avoid potential disputes and ensure full reimbursement.",
+      "metadata": {
+        "latency_s": 3.34
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The insurer will reimburse $9,700 for the water damage incident after deducting a $500 per-occurrence deductible from the total claim amount of $8,200. Ensure future claims are reported accurately to avoid disputes and secure full reimbursement.",
+      "metadata": {
+        "latency_s": 3.03
+      }
+    }
+  ]
+}

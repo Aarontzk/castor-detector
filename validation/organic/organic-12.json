@@ -1,0 +1,45 @@
+{
+  "id": "organic-12",
+  "question": "Is the night shift adequately staffed for the ICU?",
+  "source": "Hospital policy requires 1 nurse per 4 patients on the night shift. The ICU currently has 18 patients. 5 nurses are rostered for the night shift. One of the rostered nurses is a trainee who counts as half a staff unit under policy.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The hospital policy requires 1 nurse per 4 patients on the night shift.\nThe ICU currently has 18 patients.\n5 nurses are rostered for the night shift, including a trainee who counts as half a staff unit.",
+      "metadata": {
+        "latency_s": 2.96
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if the night shift is adequately staffed for the ICU, we need to calculate the required number of nurses based on hospital policy and compare it with the actual staffing.\n\n1. **Calculate Required Nurses:**\n   - According to the policy, 1 nurse is needed per every 4 patients.\n   - There are currently 18 patients in the ICU.\n   - Number of required nurses = \\( \\frac{18}{4} = 4.5 \\).\n\n2. **Consider Actual Staffing:**\n   - Rostered for the night shift includes 5 nurses, with a trainee counted as half a staff unit.\n   - Total actual staffing units = 5 + (0.5) = 5.5.\n\n3. **Compare Required and Actual Staffing:**\n   - Required nurses (4.5) < Actual staffing units (5.5).\n   \nTherefore, the night shift is adequately staffed for the ICU based on the calculation.",
+      "metadata": {
+        "latency_s": 4.64
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "**Conclusion:** The night shift in the ICU is adequately staffed with 5.5 nurses compared to the required 4.5 nurses based on patient-to-nurse ratio policy.\n\n**Recommendation:** Although currently adequate, it may be beneficial to review and potentially increase the staffing levels during peak hours or if there are plans for increased patient volumes in the future.",
+      "metadata": {
+        "latency_s": 3.26
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The night shift in the ICU is adequately staffed with 5.5 nurses compared to the required 4.5 based on patient-to-nurse ratio policy, but it may be beneficial to review and potentially increase staffing levels during peak hours or if there are plans for increased patient volumes.",
+      "metadata": {
+        "latency_s": 3.08
+      }
+    }
+  ]
+}

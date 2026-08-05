@@ -1,0 +1,45 @@
+{
+  "id": "organic-16",
+  "question": "Is there enough cement on site to finish the foundation pour?",
+  "source": "The foundation pour requires 85 bags of cement. The site currently has 70 bags in the main storage and 25 bags in the secondary shed. 10 bags in the secondary shed are reserved for a separate retaining-wall job and are not available for the foundation.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The foundation requires 85 bags of cement. There are currently 70 bags in main storage and 25 in the secondary shed, totaling 95 bags. However, 10 of these are reserved for a separate job, leaving only 45 available for the foundation.",
+      "metadata": {
+        "latency_s": 3.1
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "Based on the provided facts, there is not enough cement on site to finish the foundation. The total available cement from main storage and the secondary shed is 95 bags. Out of this amount, 10 bags are reserved for a separate job, leaving only 45 bags available for the foundation. Since the foundation requires 85 bags of cement, there are insufficient available bags to complete the project.",
+      "metadata": {
+        "latency_s": 3.35
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Conclusion: There is not enough cement on site to finish the foundation as only 45 out of 95 available bags (10 reserved) can be used, while the foundation requires a total of 85 bags.\n\nRecommendation: Additional cement should be sourced from an alternative supplier or storage location to meet the project requirements.",
+      "metadata": {
+        "latency_s": 3.18
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "Insufficient cement is on site; only 45 out of required 85 bags are available (10 reserved). Recommendation: Source additional cement from another supplier or location.",
+      "metadata": {
+        "latency_s": 2.82
+      }
+    }
+  ]
+}

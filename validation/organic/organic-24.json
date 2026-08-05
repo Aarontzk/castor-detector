@@ -1,0 +1,45 @@
+{
+  "id": "organic-24",
+  "question": "Has enough food been ordered for the conference lunch?",
+  "source": "The conference has 240 registered attendees. Catering was ordered for 220 meals based on typical no-show rates. A workshop added late brought 15 additional confirmed attendees who are not yet reflected in the catering count. Historical no-show rate is about 8 percent.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The conference has 240 registered attendees. Catering was ordered for 220 meals based on typical no-show rates, which means there are typically around 10% unconfirmed attendees. A workshop added late brought 15 more confirmed attendees who are not yet included in the catering count. The historical no-show rate is about 8 percent.",
+      "metadata": {
+        "latency_s": 3.27
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if enough food has been ordered for the conference lunch, let's calculate based on the given facts:\n\n1. **Calculate Total Registered Attendees Including Workshop Participants:**\n   - Conference attendees initially = 240\n   - Workshop added late (confirmed) participants = 15\n   - Total registered attendees including workshop = 240 + 15 = 255\n\n2. **Adjust for Historical No-Show Rate:**\n   - Historically, there are 8% no-shows.\n   - For the total of 255 expected attendees:\n     \\[\n     \\text{Expected no-shows} = 255 \\times 0.08 = 20.4\n     \\]\n   - Since the number of no-shows can't be fractional, we round up to 21 (assuming it's rounded down here for simplicity in ordering).\n\n3. **Calculate Expected Attendees After No-Show Adjustments:**\n   - Total attendees after adjusting for historical rates = 255 - 2",
+      "metadata": {
+        "latency_s": 4.85
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, approximately 234 people are expected to attend the conference lunch (after accounting for historical no-shows). Therefore, a recommendation would be to order food for at least 236 people to ensure there is enough for those who might unexpectedly show up.",
+      "metadata": {
+        "latency_s": 3.15
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "A total of 236 meals should be ordered to accommodate any last-minute attendees.",
+      "metadata": {
+        "latency_s": 2.64
+      }
+    }
+  ]
+}

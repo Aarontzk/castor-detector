@@ -1,0 +1,45 @@
+{
+  "id": "organic-17",
+  "question": "Apakah jadwal irigasi perlu diubah minggu ini?",
+  "source": "Tanaman jagung membutuhkan penyiraman setiap 3 hari dengan curah air minimal 20 mm. Curah hujan alami minggu ini tercatat 15 mm pada hari Selasa. Sensor kelembaban tanah sempat rusak selama 2 hari dan datanya untuk periode itu tidak dapat dipakai.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Tanaman jagung membutuhkan penyiraman setiap 3 hari. Minggu ini, curah hujan alami hanya mencapai 15 mm pada Selasa. Sensor kelembaban tanah rusak selama 2 hari dan data tidak dapat dipakai.",
+      "metadata": {
+        "latency_s": 3.12
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "Based on the given facts:\n\n1. Tanaman jagung membutuhkan penyiraman setiap 3 hari.\n2. Minggu ini, curah hujan alami hanya mencapai 15 mm pada Selasa.\n3. Sensor kelembaban tanah rusak selama 2 hari dan data tidak dapat dipakai.\n\nThe jadwal irigasi perluas minggu ini tidak bisa ditentukan dengan pastikian karena:\nSensor kelembaban tanah rusak, menyebabkan kurangnya informasi tentang keadaan tanah. Tanaman jagung memerlukan penyiraman setiap 3 hari, tetapi kita tidak tahu apakah sudah waktunya untuk irigasi atau belum.\n\nDengan curah hujan yang rendah dan sensor yang rusak, belum ada bahan dasar untuk menentukan jadwal irigasi.",
+      "metadata": {
+        "latency_s": 4.54
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Berdasarkan analisis tersebut, jadwal irigasi perluasan minggu ini tidak dapat ditentukan dengan pastikian karena sensor kelembaban tanah rusak dan kurangnya data tentang kondisi tanah. Rekomendasinya adalah untuk menunggu hingga sensor tersebut diperbaiki atau mengambil jadwal irigasi secara manual berdasarkan pengamatan langsung pada tanaman jagung.",
+      "metadata": {
+        "latency_s": 3.49
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "Berdasarkan analisis, jadwal irigasi perluasan minggu ini tidak dapat ditentukan dengan pastikian sebab sensor kelembaban rusak dan kurangnya data tentang kondisi tanah. Rekomendasinya adalah menunggu hingga sensor diperbaiki atau mengambil jadwal irigasi secara manual berdasarkan pengamatan langsung pada tanaman jagung.",
+      "metadata": {
+        "latency_s": 3.42
+      }
+    }
+  ]
+}

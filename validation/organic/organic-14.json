@@ -1,0 +1,45 @@
+{
+  "id": "organic-14",
+  "question": "How much overtime pay is owed to the employee this week?",
+  "source": "Employee Chen worked 46 hours this week. The standard work week is 40 hours, and overtime is paid at 1.5 times the base hourly rate of 22 dollars. The first 2 overtime hours each week are paid at the standard rate as part of a flexible-hours pilot program still in effect this quarter.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Employee Chen worked 46 hours, which includes 6 overtime hours (46 - 40 = 6). The base hourly rate is $22. Overtime pay is at 1.5 times the base rate, making it $33 per hour for these additional hours.",
+      "metadata": {
+        "latency_s": 3.11
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine how much overtime pay is owed to Employee Chen this week, we can follow these steps:\n\n1. Calculate the number of overtime hours worked: \n   Chen worked 46 hours - standard workweek (typically 40 hours) = 6 overtime hours.\n\n2. Determine the overtime rate:\n   Overtime pay is at 1.5 times the base hourly rate.\n   Base hourly rate = $22\n   Overtime hourly rate = $22 * 1.5 = $33 per hour\n\n3. Calculate the total overtime pay owed:\n   Total overtime pay = Number of overtime hours * Overtime hourly rate\n   Total overtime pay = 6 * $33 = $198\n\nTherefore, Employee Chen is owed $198 in overtime pay for this week.",
+      "metadata": {
+        "latency_s": 4.26
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis provided, Employee Chen is owed $198 in overtime pay for this week. To further improve efficiency and prevent similar calculations from being necessary in future weeks, it's recommended that regular timekeeping checks be implemented to automatically identify and process overtime payments accurately and promptly.",
+      "metadata": {
+        "latency_s": 3.08
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "Employee Chen is owed $198 in overtime pay for this week. Regular timekeeping checks are recommended to avoid future errors.",
+      "metadata": {
+        "latency_s": 2.83
+      }
+    }
+  ]
+}

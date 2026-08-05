@@ -1,0 +1,45 @@
+{
+  "id": "organic-26",
+  "question": "Does the buyer qualify for the loan under the debt-to-income limit?",
+  "source": "The lender requires a debt-to-income ratio no higher than 43 percent. The buyer's gross monthly income is 7,000 dollars and existing monthly debts total 1,800 dollars. The proposed mortgage payment would be 1,400 dollars per month. The buyer also co-signed a car loan for a family member with a 250 dollar monthly payment that does not appear on the buyer's own credit report.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The lender requires a debt-to-income ratio no higher than 43 percent. The buyer's gross monthly income is $7,000 and existing monthly debts total $1,800. A proposed mortgage payment would add another $1,400 per month to the buyer's expenses. Additionally, the buyer co-signed a car loan with a monthly payment of $250 that does not appear on their own credit report.",
+      "metadata": {
+        "latency_s": 3.68
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if the buyer qualifies for the loan under the debt-to-income limit, we need to calculate the total monthly obligations and compare them to the allowed 43% ratio based on gross income.\n\nTotal existing monthly debts: $1,800 (current debts)\nProposed mortgage payment: $1,400\nCar loan payments that do not appear on their own credit report: $250\n\nTotal monthly obligations = $1,800 + $1,400 + $250 = $3,450\n\nDebt-to-income ratio = (Total monthly obligations / Gross monthly income) * 100\n= ($3,450 / $7,000) * 100 ≈ 49.29%\n\nSince the debt-to-income ratio of approximately 49.29% exceeds the lender's limit of 43%, the buyer does not qualify for the loan under the debt-to-income limit.",
+      "metadata": {
+        "latency_s": 5.12
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, the buyer does not qualify for the loan under the debt-to-income limit due to a ratio exceeding 43%. To address this, I recommend that the buyer explore ways to reduce their monthly obligations or increase their income before applying again.",
+      "metadata": {
+        "latency_s": 3.18
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The buyer does not qualify for the loan because their debt-to-income ratio exceeds 43%, making it ineligible under current limits. To proceed, they should consider reducing monthly obligations or increasing their income.",
+      "metadata": {
+        "latency_s": 2.99
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "organic-11",
+  "question": "Is the pipeline pressure within safe limits?",
+  "source": "The pipeline's safe operating pressure is between 120 and 180 psi. Gauge 1 currently reads 165 psi, gauge 2 reads 158 psi. Gauge 1 has a known calibration drift of plus 6 psi and is due for service next week. Pressure above 175 psi triggers automatic shutdown.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The pipeline's safe operating pressure range is between 120 and 180 psi. Gauge 1 reads 165 psi, with a known calibration drift of plus 6 psi, indicating an actual reading closer to 171 psi. Pressure above 175 psi triggers automatic shutdown.",
+      "metadata": {
+        "latency_s": 3.23
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "Based on the provided facts, we can calculate the actual pressure in the pipeline as follows:\n\n1. Safe operating range: 120 - 180 psi.\n2. Gauge reading: 165 psi.\n3. Calibration drift correction: +6 psi.\n\nActual pressure calculation:\n\\[ \\text{Actual Pressure} = \\text{Gauge Reading} + \\text{Calibration Drift} \\]\n\\[ \\text{Actual Pressure} = 165 \\, \\text{psi} + 6 \\, \\text{psi} = 171 \\, \\text{psi} \\]\n\nSince the actual pressure of 171 psi is above the upper limit of the safe operating range (175 psi), it triggers automatic shutdown. Therefore, the pipeline pressure is not within safe limits.",
+      "metadata": {
+        "latency_s": 4.36
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Conclusion: The pipeline pressure is not within safe limits as it exceeds the upper limit of the safe operating range by 4 psi.\n\nRecommendation: Immediate action should be taken to investigate and correct any potential calibration errors or system issues that may have led to the overpressure condition.",
+      "metadata": {
+        "latency_s": 3.11
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The final answer is: The pipeline pressure exceeded the safe limit by 4 psi, which requires immediate investigation and correction of system issues.",
+      "metadata": {
+        "latency_s": 2.78
+      }
+    }
+  ]
+}

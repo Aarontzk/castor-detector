@@ -1,0 +1,45 @@
+{
+  "id": "organic-23",
+  "question": "Has the appeal been filed within the legal deadline?",
+  "source": "The appeal must be filed within 30 calendar days of the ruling, issued on March 3rd. The filing was submitted on April 1st. Court holidays do not extend the deadline, but the filing window pauses for court closures, and the court was closed for 3 days in late March for a facility issue.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The appeal must be filed within 30 calendar days of the ruling on March 3rd. The filing was submitted on April 1st. Court closures and holidays do not extend the deadline, but there were 3 court closures in late March.",
+      "metadata": {
+        "latency_s": 3.03
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if the appeal was filed within the legal deadline, let's break it down step by step:\n\n1. **Legal Deadline**: Appeals must be filed within 30 calendar days after the ruling on March 3rd.\n2. **Filing Date**: The filing was submitted on April 1st.\n\nGiven this information:\n- If the appeal was due on April 4th (30 days from March 3rd), and the actual submission date was April 1st, we can calculate if it fell within the deadline.\n  \nSince 30 calendar days from March 3rd would fall between March 24th and April 3rd inclusive:\n- Submission on April 1st is within this range.\n\nAdditional information:\n- Court closures in late March did not extend the filing period, but they do affect when the appeal can be processed once filed.\n  \nTherefore, based solely on the filing date (April 1st) without considering any potential delays due to processing or court closure impact, it appears that the appeal was indeed filed within the legal deadline.",
+      "metadata": {
+        "latency_s": 4.84
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Conclusion: The appeal has likely been filed within the legal deadline of 30 calendar days from the ruling date. Recommendation: To ensure full compliance and avoid any future complications, it is recommended to verify the specific processing times of the court to confirm timely receipt and consideration of the appeal once submitted.",
+      "metadata": {
+        "latency_s": 3.21
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The appeal was likely filed within the 30-calendar-day legal deadline from the ruling date. For complete assurance, verifying the court's processing time will ensure timely receipt and consideration of the appeal.",
+      "metadata": {
+        "latency_s": 2.92
+      }
+    }
+  ]
+}

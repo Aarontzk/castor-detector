@@ -1,0 +1,45 @@
+{
+  "id": "organic-21",
+  "question": "Apakah anggaran BBM bulan ini cukup untuk seluruh rute pengiriman?",
+  "source": "Anggaran BBM bulan ini sebesar 8 juta rupiah. Rute reguler membutuhkan 5.2 juta rupiah. Ada 2 rute tambahan musiman yang masing-masing membutuhkan 1.4 juta rupiah, tapi salah satu rute tambahan dibiayai terpisah oleh klien dan tidak masuk anggaran internal.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Anggaran BBM sebesar 8 juta rupiah diprediksi sudah mencukupi untuk semua rute, yang meliputi 5.2 juta untuk rute reguler dan total biaya tambahan 2 rute musiman sebesar 2.8 juta rupiah (1.4 juta x 2). Terlebih, salah satu rute tambahan tidak masuk dalam anggaran internal dan dibayarkan terpisah oleh klien.",
+      "metadata": {
+        "latency_s": 3.62
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "Based on the provided facts, let's break down the information step by step to answer the question:\n\n1. The budget for gasoline is set at 8 million rupiah.\n2. This budget will cover all routes, which include:\n   - Regular routes: 5.2 million rupiah (total for these routes)\n   - Additional seasonal routes: 2.8 million rupiah (1.4 million each)\n\n3. There's an additional route that was not included in the internal budget but is paid by the client.\n\nLet's calculate:\n- Total required for all routes = 5.2 million + 2.8 million = 8 million rupiah.\n- Since there are no leftover amounts, and the total budget exactly matches the total requirement (8 million), it means the budget of 8 million rupiah is indeed sufficient to cover all routes.\n\nTherefore, based on these facts, the anggaran BBM bulan ini cukup untuk seluruh rute pengiriman.",
+      "metadata": {
+        "latency_s": 4.77
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, the gasoline budget for this month is exactly enough to cover all the routes, including both regular and seasonal ones. To ensure future reliability in case of any unexpected increases or changes in demand, it would be recommended to maintain a small buffer within the budget.",
+      "metadata": {
+        "latency_s": 3.11
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The gasoline budget for this month is sufficient to cover all routes, but maintaining a small buffer is advised for future uncertainties.",
+      "metadata": {
+        "latency_s": 2.72
+      }
+    }
+  ]
+}

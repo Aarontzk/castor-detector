@@ -1,0 +1,45 @@
+{
+  "id": "organic-13",
+  "question": "Apakah stok cukup untuk memenuhi pesanan 600 unit minggu ini?",
+  "source": "Gudang Cikarang memiliki 340 unit siap kirim. Gudang Bandung memiliki 410 unit, namun 80 unit di antaranya sudah dialokasikan untuk pesanan lain yang belum dibatalkan. Pengiriman antar gudang membutuhkan waktu 1 hari kerja.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Gudang Cikarang memiliki 340 unit siap kirim.\nGudang Bandung memiliki 410 unit, namun hanya 330 unit yang siap dikirim (410 - 80).\nPengiriman antar gudang membutuhkan waktu 1 hari kerja.",
+      "metadata": {
+        "latency_s": 3.24
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if the stock is sufficient to fulfill the order of 600 units this week, we need to consider the available stock across all locations.\n\nGudang Cikarang has 340 units ready for shipment.\nGudang Bandung initially has 410 units but only 330 are ready (410 - 80).\n\nTotal ready units = Units in Gudang Cikarang + Units ready in Gudang Bandung\n= 340 + 330\n= 670 units\n\nSince the total number of units ready for shipment is 670, which is more than the required 600 units, we can conclude that the stock is sufficient to fulfill the order.",
+      "metadata": {
+        "latency_s": 4.19
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, the stock is sufficient to fulfill the order of 600 units this week as there are a total of 670 ready units across all locations. To further optimize operations and ensure future orders are met with minimal disruptions, it is recommended that Gudang Bandung should aim for consistent readiness of its stock, ideally reaching full capacity (410 units) in the long term.",
+      "metadata": {
+        "latency_s": 3.39
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The stock of 670 units across all locations is sufficient to fulfill this week's order of 600 units. To ensure future orders are met without disruptions, Gudang Bandung should strive for consistent readiness at full capacity.",
+      "metadata": {
+        "latency_s": 2.96
+      }
+    }
+  ]
+}

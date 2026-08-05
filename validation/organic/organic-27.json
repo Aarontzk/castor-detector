@@ -1,0 +1,45 @@
+{
+  "id": "organic-27",
+  "question": "Is the team under the salary cap after the new signing?",
+  "source": "The league salary cap is 118 million dollars. The team's current committed salary is 109 million dollars. The new signing adds a 12 million dollar salary. Players on rookie contracts count at only 50 percent of their listed salary against the cap in their first year, and the new signee is on a rookie contract.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The league salary cap is $118 million.\nThe team's current committed salary is $109 million.\nA new player with a salary of $12 million is joining the team, who is on a rookie contract counted at 50% in their first year.",
+      "metadata": {
+        "latency_s": 3.17
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if the team will be under the salary cap after signing the new player, we need to calculate the total committed salary including the rookie discount.\n\nThe current committed salary is $109 million.\nThe rookie player's salary for the first year at 50% is calculated as follows:\n\\[ \\text{Rookie Salary} = \\$12 \\text{ million} \\times 0.5 = \\$6 \\text{ million} \\]\n\nAdding this to the current committed salary gives us:\n\\[ \\text{Total Committed Salary} = \\$109 \\text{ million} + \\$6 \\text{ million} = \\$115 \\text{ million} \\]\n\nSince the total committed salary of $115 million is less than the league salary cap of $118 million, the team will be under the salary cap after this new signing.",
+      "metadata": {
+        "latency_s": 4.59
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis, the team will indeed be under the salary cap after the new signing. To ensure they remain compliant with labor laws and maintain financial stability in the long term, it is recommended that the team implements a strategic plan to monitor potential future overages and adjust their roster accordingly.",
+      "metadata": {
+        "latency_s": 3.21
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The team will be under the salary cap after the new signing, but it's recommended they implement a strategy for ongoing monitoring and adjustments.",
+      "metadata": {
+        "latency_s": 2.8
+      }
+    }
+  ]
+}

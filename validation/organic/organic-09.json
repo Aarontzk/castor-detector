@@ -1,0 +1,45 @@
+{
+  "id": "organic-09",
+  "question": "What is the company's net profit after tax for Q3?",
+  "source": "Bright Foods Ltd reported Q3 revenue of 1,250,000 dollars and operating costs of 890,000 dollars. Corporate tax is charged at 22 percent on operating profit. A one-time equipment write-off of 40,000 dollars is deducted before tax but excluded from operating profit reporting.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Bright Foods Ltd reported a revenue of $1,250,000 and operating costs of $890,000 in Q3. Corporate tax at 22% is applied to the operating profit, which excludes a one-time equipment write-off of $40,000 from tax calculations but does not affect operating profit reporting.",
+      "metadata": {
+        "latency_s": 18.27
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine Bright Foods Ltd's net profit after tax for Q3, we first need to calculate the operating profit. The formula for operating profit is:\n\n\\[ \\text{Operating Profit} = \\text{Revenue} - \\text{Operating Costs} + \\text{One-time Write-off} \\]\n\nSubstituting the given values:\n\n\\[ \\text{Operating Profit} = \\$1,250,000 - \\$890,000 + \\$40,000 = \\$300,000 \\]\n\nNext, we calculate the tax amount on the operating profit. Since 22% of the operating profit is taxed:\n\n\\[ \\text{Tax} = \\text{Operating Profit} \\times 22\\% = \\$300,000 \\times 0.22 = \\$66,000 \\]\n\nFinally, we can find the net profit after tax by subtracting the tax from the operating profit:\n\n\\[ \\text{Net Profit After Tax} = \\text{Operating Profit}",
+      "metadata": {
+        "latency_s": 4.87
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis provided, Bright Foods Ltd's net profit after tax for Q3 is calculated as follows:\n\\[ \\text{Net Profit After Tax} = \\$300,000 - \\$66,000 = \\$234,000. \\]\nRecommendation: To further improve future financial performance, the company should explore ways to reduce operating costs or increase revenue without compromising profitability.",
+      "metadata": {
+        "latency_s": 3.43
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "Bright Foods Ltd's net profit after tax for Q3 is $234,000. Recommendations include exploring cost reduction and revenue growth strategies.",
+      "metadata": {
+        "latency_s": 2.81
+      }
+    }
+  ]
+}

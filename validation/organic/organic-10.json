@@ -1,0 +1,45 @@
+{
+  "id": "organic-10",
+  "question": "Can the driver complete both deliveries within the same shift?",
+  "source": "Driver Morales starts his shift at 08:00 and works a maximum of 9 hours including a mandatory 30-minute break. Delivery A takes 3 hours 15 minutes round trip. Delivery B takes 4 hours 45 minutes round trip. Delivery B requires a signed customs form only if the shipment crosses the state line, which adds 20 minutes.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "Morales starts his shift at 08:00 and works a maximum of 9 hours including a mandatory 30-minute break. Delivery A takes 3 hours and 15 minutes, and Delivery B takes 4 hours and 45 minutes round trip. Adding the necessary customs form processing time for Delivery B adds an additional 20 minutes.",
+      "metadata": {
+        "latency_s": 3.3
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To determine if Morales can complete both deliveries within a 9-hour shift (excluding breaks), we need to calculate the total time required for each delivery, including any extra time needed.\n\nDelivery A takes 3 hours and 15 minutes:\n\\( 3 \\text{ hours} + 0.25 \\text{ hours} = 3.25 \\text{ hours} \\).\n\nDelivery B takes 4 hours and 45 minutes (including additional form processing time):\n\\( 4 \\text{ hours} + 0.75 \\text{ hours} = 4.75 \\text{ hours} \\),\nAdding the extra 20 minutes:\n\\( 4.75 \\text{ hours} + 0.333\\overline{3} \\text{ hours} = 5.083\\overline{3} \\text{ hours} \\).\n\nTotal time required for both deliveries:\n\\( 3.25 \\text{ hours} + 5.083\\overline{3} \\text",
+      "metadata": {
+        "latency_s": 4.95
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Conclusion: Based on the analysis, Morales cannot complete both deliveries within a standard 9-hour shift (excluding breaks), as the total required time exceeds 8.333 hours for both deliveries combined.\n\nRecommendation: To accommodate both deliveries within a single shift, Morales should be given at least an additional hour or two to cover any unforeseen delays or inefficiencies in the schedule.",
+      "metadata": {
+        "latency_s": 3.35
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "Conclusion: Based on the analysis, Morales cannot complete both deliveries within a standard 9-hour shift (excluding breaks), as the total required time exceeds 8.333 hours for both deliveries combined. To accommodate both deliveries, an additional hour or two is recommended to cover any unforeseen delays.",
+      "metadata": {
+        "latency_s": 3.1
+      }
+    }
+  ]
+}

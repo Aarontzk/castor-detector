@@ -1,0 +1,45 @@
+{
+  "id": "organic-20",
+  "question": "What is the customer's total electricity bill for the month?",
+  "source": "The utility charges 0.12 dollars per kWh for the first 500 kWh and 0.18 dollars per kWh above that. The customer used 640 kWh this month. A fixed 15 dollar service fee applies, but is waived for customers enrolled in autopay, which this customer joined last month.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The utility charges $0.12 per kWh for the first 500 kWh and $0.18 per kWh above that. The customer used 640 kWh. A fixed $15 service fee applies, but is waived due to autopay enrollment.",
+      "metadata": {
+        "latency_s": 3.04
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "To calculate the total electricity bill:\n- First, compute the cost for the first 500 kWh: \\(500 \\text{ kWh} \\times \\$0.12/\\text{kWh} = \\$60\\).\n- Then, compute the cost for the remaining 140 kWh (640 - 500): \\(140 \\text{ kWh} \\times \\$0.18/\\text{kWh} = \\$25.20\\).\n- The service fee is $15 but waived.\n\nThus, the total electricity bill for the customer is:\n\\[ \\$60 + \\$25.20 = \\$85.20. \\]",
+      "metadata": {
+        "latency_s": 4.01
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "The customer's total electricity bill for the month is $85.20. To further improve efficiency and reduce costs in future billing cycles, it would be recommended to identify if there are any opportunities to increase energy efficiency or negotiate a lower rate for higher consumption levels above 640 kWh.",
+      "metadata": {
+        "latency_s": 3.09
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The customer's total electricity bill for the month is $85.20. For future efficiency and cost reduction, consider increasing energy efficiency or negotiating a lower rate for higher consumption.",
+      "metadata": {
+        "latency_s": 2.89
+      }
+    }
+  ]
+}

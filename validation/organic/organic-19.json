@@ -1,0 +1,45 @@
+{
+  "id": "organic-19",
+  "question": "What is the final price the customer pays for the jacket?",
+  "source": "The jacket is listed at 120 dollars. A storewide 20 percent discount applies today. The customer also has a 10 dollar loyalty coupon. Store policy states percentage discounts and dollar coupons cannot be combined on clearance items, and this jacket was moved to clearance yesterday.",
+  "model": "qwen2.5:3b",
+  "temperature": 0.8,
+  "steps": [
+    {
+      "step_id": 1,
+      "agent_name": "extractor",
+      "role": "llm",
+      "text": "The jacket originally costs $120. A storewide discount of 20% applies today. The customer has a $10 loyalty coupon. Due to being on clearance, these discounts cannot be combined. Therefore, the final price paid is calculated after applying the 20% discount first and then the $10 coupon.",
+      "metadata": {
+        "latency_s": 3.21
+      }
+    },
+    {
+      "step_id": 2,
+      "agent_name": "analyst",
+      "role": "llm",
+      "text": "First, apply the 20% storewide discount:\n- Original price: $120\n- Discount amount: \\( 120 \\times 0.20 = 24 \\)\n- Price after discount: \\( 120 - 24 = 96 \\)\n\nNext, apply the $10 loyalty coupon to the discounted price:\n- Price before coupon: $96\n- Coupon amount: $10\n- Final price paid: \\( 96 - 10 = 86 \\)\n\nTherefore, the final price the customer pays for the jacket is **$86**.",
+      "metadata": {
+        "latency_s": 3.88
+      }
+    },
+    {
+      "step_id": 3,
+      "agent_name": "reasoner",
+      "role": "llm",
+      "text": "Based on the analysis provided, the final price the customer pays for the jacket is $86. To further improve customer satisfaction and encourage repeat business, a recommendation would be to implement a loyalty program that rewards customers with more substantial discounts or points after they reach certain spending thresholds.",
+      "metadata": {
+        "latency_s": 3.07
+      }
+    },
+    {
+      "step_id": 4,
+      "agent_name": "writer",
+      "role": "llm",
+      "text": "The final price the customer pays for the jacket is $86. For improved customer satisfaction and future transactions, consider implementing a loyalty program with rewards.",
+      "metadata": {
+        "latency_s": 2.76
+      }
+    }
+  ]
+}

@@ -14,6 +14,7 @@ from .config import DEFAULT_EMBEDDING_MODEL, DEFAULT_NLI_MODEL
 from .drift import DriftTracker
 from .embedding import Embedder
 from .entailment import CrossEncoderEntailment, EntailmentChecker
+from .omission import coverage_series, omission_series, split_facts
 from .report import CascadeReport, StepSignals
 from .taxonomy import classify
 from .trajectory import Trajectory, TrajectoryStep
@@ -51,6 +52,10 @@ class CascadeAnalyzer:
             drift_threshold=self._profile.drift_threshold,
             anchor=anchor,
         )
+        # Anchor facts power the reverse-entailment coverage check (v1 item 1).
+        # Without an anchor there is no ground truth to measure completeness
+        # against, and the omission signal stays None rather than guessing.
+        self._anchor_facts = split_facts(anchor) if anchor is not None else ()
         if entailment is False:
             self._entailment: EntailmentChecker | None = None
             self._nli_requested = False
@@ -104,8 +109,11 @@ class CascadeAnalyzer:
         entail_results = self._run_entailment(measurable, notes)
         degraded = self._nli_requested and entail_results is None
         certainty = certainty_series([step.text for step in measurable])
+        coverage = self._run_coverage(measurable, notes)
 
-        signals = self._merge_signals(drift_report, measurable, entail_results, certainty)
+        signals = self._merge_signals(
+            drift_report, measurable, entail_results, certainty, coverage
+        )
         verdict = self._verdict(signals)
         roles = {step.step_id: step.role for step in measurable}
         entail_threshold = self._profile.entail_threshold if entail_results is not None else None
@@ -152,8 +160,36 @@ class CascadeAnalyzer:
             notes.append(message)
             return None
 
-    def _merge_signals(self, drift_report, measurable, entail_results, certainty):
-        """Combine drift, entailment and certainty into per-step StepSignals."""
+    def _run_coverage(self, measurable, notes: list[str]):
+        """Reverse-entailment coverage of the anchor facts, per step (v1 item 1).
+
+        Returns None when there is no anchor or no NLI checker, which is a
+        normal configuration rather than a failure. A checker that raises is
+        reported as a note and the signal is dropped, never propagated (FR-12).
+        """
+        if self._entailment is None or not self._anchor_facts or not measurable:
+            return None
+        try:
+            return coverage_series(
+                [step.text for step in measurable],
+                self._anchor_facts,
+                self._entailment,
+                covered_threshold=self._profile.coverage_threshold,
+            )
+        except Exception as exc:
+            message = (
+                f"coverage check unavailable ({type(exc).__name__}: {exc}) — "
+                "omission signal dropped"
+            )
+            warnings.warn(message, stacklevel=2)
+            notes.append(message)
+            return None
+
+    def _merge_signals(
+        self, drift_report, measurable, entail_results, certainty, coverage=None
+    ):
+        """Combine drift, entailment, certainty and coverage into per-step StepSignals."""
+        omissions = omission_series(coverage) if coverage is not None else None
         signals: list[StepSignals] = []
         for index, (drift, step) in enumerate(zip(drift_report.results, measurable)):
             entail = entail_results[index - 1] if entail_results is not None and index >= 1 else None
@@ -182,6 +218,17 @@ class CascadeAnalyzer:
                 reasons.append(
                     f"aggregate {aggregate:.3f} > threshold {self._profile.aggregate_threshold}"
                 )
+            step_coverage = coverage[index] if coverage is not None else None
+            step_omission = omissions[index] if omissions is not None else None
+            if (
+                step_omission is not None
+                and step_omission > self._profile.omission_threshold
+            ):
+                reasons.append(
+                    f"omission {step_omission:.3f} > threshold "
+                    f"{self._profile.omission_threshold} "
+                    f"(anchor-fact coverage {step_coverage:.2f})"
+                )
             signals.append(
                 StepSignals(
                     step_id=drift.step_id,
@@ -196,6 +243,8 @@ class CascadeAnalyzer:
                     aggregate=aggregate,
                     flagged=bool(reasons),
                     flag_reasons=tuple(reasons),
+                    coverage=step_coverage,
+                    omission=step_omission,
                 )
             )
         return signals
@@ -214,6 +263,9 @@ class CascadeAnalyzer:
             "entail_threshold": self._profile.entail_threshold,
             "aggregate_threshold": self._profile.aggregate_threshold,
             "weights": (self._weights.drift, self._weights.entailment, self._weights.confidence),
+            "coverage_threshold": self._profile.coverage_threshold,
+            "omission_threshold": self._profile.omission_threshold,
+            "anchor_facts": len(self._anchor_facts),
         }
 
     def _models_dict(self, degraded: bool = False) -> dict[str, str | None]:

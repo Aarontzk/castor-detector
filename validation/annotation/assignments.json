@@ -1,0 +1,41 @@
+{
+  "seed": 42,
+  "n_chains": 28,
+  "overlap": [
+    "organic-02",
+    "organic-04",
+    "organic-08",
+    "organic-12",
+    "organic-13",
+    "organic-14",
+    "organic-15",
+    "organic-20",
+    "organic-26",
+    "organic-27"
+  ],
+  "single": {
+    "farel": [
+      "organic-03",
+      "organic-05",
+      "organic-06",
+      "organic-09",
+      "organic-10",
+      "organic-18",
+      "organic-21",
+      "organic-23",
+      "organic-28"
+    ],
+    "fabio": [
+      "organic-01",
+      "organic-07",
+      "organic-11",
+      "organic-16",
+      "organic-17",
+      "organic-19",
+      "organic-22",
+      "organic-24",
+      "organic-25"
+    ]
+  },
+  "policy": "10 overlap chains annotated independently by both annotators (Cohen's kappa source); remaining 18 split 9/9, single annotation. Overlap stratified by batch and question language."
+}

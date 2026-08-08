@@ -32,3 +32,20 @@ DEFAULT_CLASSIFICATION_THRESHOLD = 0.4
 # FR-11: embedding-cache sliding window for very long trajectories — the
 # anchor embedding is always retained, plus this many most recent steps.
 DEFAULT_CACHE_WINDOW = 128
+
+# v1 item 1 (omission/completeness signal). A source fact counts as still
+# carried by a step when the step entails it at or above this probability.
+# Starting point only, same caveat as every other threshold here: entailment
+# mass is domain-dependent and this needs recalibration per pipeline.
+DEFAULT_COVERAGE_THRESHOLD = 0.5
+
+# v1 item 1: flag level for the per-step drop in source-fact coverage.
+DEFAULT_OMISSION_THRESHOLD = 0.25
+
+# v1 item 1: cap on anchor facts scored per step. Bounds the NLI cost of the
+# coverage check at (steps x facts) pairs on long source documents (FR-11).
+DEFAULT_MAX_ANCHOR_FACTS = 12
+
+# v1 item 1: sentence fragments shorter than this are merged into the previous
+# fact instead of becoming their own hypothesis.
+DEFAULT_MIN_FACT_CHARS = 25

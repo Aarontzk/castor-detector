@@ -115,6 +115,114 @@ reported: the model produced zero clean runs to measure it on.
    code-switching reads as huge semantic drift. For ID pipelines, swap in a
    multilingual embedder (the `Embedder` interface exists for exactly this).
 
+## Organic validation extended to N=28 — added 2026-08-07
+
+Batch 2 added 20 chains (`validation/agent_chain_batch2.py`, same qwen2.5:3b
+information-bottleneck setup), taking the organic set to 28. All 28 were
+annotated under one written scheme (`validation/annotation/GUIDE.md`): first
+step that deviates from the source, plus an error type. Two findings from the
+N=8 write-up above do not survive the larger sample.
+
+**Correction 1: omission is not the dominant failure mode.**
+
+| Error type at the origin | N=8 (batch 1) | N=28 (full set) |
+|---|---|---|
+| misread (fact present, meaning inverted or misapplied) | 2/8 (25%) | **11/24 (46%)** |
+| omission (fact silently dropped) | **5/8 (62%)** | 9/24 (38%) |
+| arithmetic | 1/8 (12%) | 2/24 (8%) |
+| fabrication | 0/8 | 2/24 (8%) |
+
+The batch-1 claim that omission dominates was an artefact of eight samples. The
+larger mode is *misread*: the step keeps the fact and inverts what it means. A
+gauge drifting "+6 psi" gets added instead of subtracted; a clearance rule is
+stated correctly and violated in the same sentence; a trainee counted as half a
+unit is added on top of the five nurses who already include them. Omission
+remains the second mode and remains the one drift and forward entailment cannot
+see, which is why the signal below was still worth building.
+
+**Correction 2: organic FPR is measurable now, and it is bad.**
+
+Batch 1 produced no clean runs, so no organic FPR was reported. Batch 2 produced
+four (`organic-13`, `-15`, `-20`, `-27`), and on those:
+
+- chain-level false positives: **4/4** — every clean chain trips at least one flag
+- step-level false positives: **31%** with drift + entailment, rising to 44-62%
+  once the omission signal is on
+
+The synthetic-calibrated profile does not transfer, in both directions: it
+missed every organic cascade at the trajectory level (0/28 verdicts) and it
+flags every organic clean run at the step level. Calibration is not a footnote
+for this tool, it is a precondition.
+
+### Omission signal (v1 item 1) — reverse-entailment coverage
+
+`src/castor/omission.py`. Same NLI cross-encoder, inputs reversed: instead of
+"is this step supported by its predecessor?", ask "does this step still entail
+each fact of the source?". Coverage is the fraction of anchor facts a step
+entails; omission is the coverage a step lost relative to the step before it,
+so the drop is charged to the step that caused it. No training, no new model.
+
+Measured over the 28 annotated chains (`validation/measure_omission.py`, shipped
+defaults: coverage 0.5, omission 0.25):
+
+| Origin attribution | drift + entailment | + omission signal |
+|---|---|---|
+| all cascaded chains, exact | 6/24 (25%) | **12/24 (50%)** |
+| all cascaded chains, within-1 | 18/24 (75%) | **23/24 (96%)** |
+| chains annotated `omission`, exact | 0/9 (0%) | **5/9 (56%)** |
+| chains annotated `omission`, within-1 | 7/9 (78%) | **9/9 (100%)** |
+
+The signal adds no detection: both configurations flag 24/24 cascades, and there
+is no chain where omission is the only flag. What it buys is *attribution*, which
+is the product's actual claim. It moved the first flag closer to the annotated
+origin on 10 chains and doubled exact-origin accuracy.
+
+The cost is precision on clean runs: step-level false positives rise from 31% to
+44%. Chain-level false positives do not change (4/4 either way) because the
+legacy signals already flag every clean chain.
+
+**Threshold sweep** (`validation/sweep_omission.py`, cached NLI matrix so the
+sweep is free after one pass):
+
+- The **coverage threshold barely matters**. Fact-level entailment scores are
+  strongly bimodal: 68% land below 0.05 and 26% above 0.8, with only 7% in the
+  ambiguous middle. Any cut between 0.05 and 0.9 partitions almost identically.
+- The **omission threshold is the real knob**. At 0.20 attribution reaches 71%
+  exact and 100% within-1, against 50%/96% at the shipped 0.25 and 25%/75% with
+  the signal off.
+- Defaults are deliberately left at 0.5/0.25. The sweep was run on the same 28
+  chains it is scored on, with only 4 clean chains behind the false-positive
+  figure, so 0.20 is a tuned number rather than a validated one. A disjoint
+  organic set is the prerequisite for moving the default.
+
+**Negative result worth recording:** suppressing the omission flag on condensing
+roles (writer, then writer + reasoner) did not reduce false positives at all.
+Coverage does collapse by role exactly as predicted (mean anchor-fact coverage:
+extractor 0.54, analyst 0.45, reasoner 0.06, writer 0.04), but those steps are
+*already* flagged by forward entailment, so suppressing the omission flag alone
+changes nothing. Role-aware thresholds (v1 item 6) have to apply to entailment
+and omission together, or they buy nothing.
+
+**Second-order finding:** a faithful extractor scores only 0.54 mean coverage.
+The NLI model under-scores entailment when a step paraphrases the source instead
+of quoting it, which is the direct cause of the omission flags on `organic-13`
+and `organic-20`, both annotated clean. Fact-level coverage is measuring
+paraphrase distance as much as it is measuring completeness. That is a real
+limitation of this implementation, not a property of the chains.
+
+### Annotation provenance and reliability
+
+Ground truth for all 28 chains lives in `validation/annotation/`. The labels
+used above are a single machine-assisted pass (`annotations-claude.json`) whose
+origin steps match the earlier human annotations on all 8 batch-1 chains. That
+agreement is not independent evidence: the same pass had already read the
+batch-1 table in this document.
+
+The human round is set up but not yet run: 10 chains are assigned to both
+annotators for a Cohen's kappa, the remaining 18 are split 9/9. Until that lands,
+**every number in this section rests on unverified single-pass labels** and
+should be read as provisional.
+
 ## Self-healing loop demo (owner request, not a Castor feature)
 
 `examples/self_healing_chain.py`: an ORCHESTRATOR-side pattern (Castor stays

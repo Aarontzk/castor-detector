@@ -1,0 +1,254 @@
+[
+  {
+    "chain_id": "organic-01",
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Subtracts the one-time grant (210,000 - 15,000 = 195,000). The source excludes the grant from operating profit, which means it is never added, not that it is deducted.",
+    "notes": "Step 1 carried the exclusion faithfully.",
+    "prior_exposure": true
+  },
+  {
+    "chain_id": "organic-02",
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Claims Bekasi 'can ship the entire 450 units' when Bekasi holds 380. Also calls Semarang viable after stating its 5 days exceeds the 4-day request.",
+    "notes": "Two inverted comparisons in the same step. Step 1 was faithful.",
+    "prior_exposure": true
+  },
+  {
+    "chain_id": "organic-03",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops both the sensor-A +3 degree calibration flag and the 74-degree shutdown rule; keeps only the 40-75 range.",
+    "notes": "Step 4 additionally fabricates 'both sensors at 74 degrees'. Answer stays correct (reactor is safe) despite the omission.",
+    "prior_exposure": true
+  },
+  {
+    "chain_id": "organic-04",
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "arithmetic",
+    "evidence": "Invents '30 regular seats per wheelchair space', then 45 + 12 = 57 seats per bus, then ceil(186/57) = 3. Correct answer is 5 buses (190 seat-equivalents / 45).",
+    "notes": "Step 1 extracted every fact correctly, including the 3-seats-per-wheelchair rule.",
+    "prior_exposure": true
+  },
+  {
+    "chain_id": "organic-05",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Keeps the sentence that partner sign-ups are excluded but drops the figure (400), so the exclusion can never be applied downstream.",
+    "notes": "Textbook drift-invisible omission: the retained sentence is true, just unusable.",
+    "prior_exposure": true
+  },
+  {
+    "chain_id": "organic-06",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops the planting date (10 March). Without it the 115-125 day window cannot be turned into a date, which is what the question asks for.",
+    "notes": "ID-language chain. Correct answer is early July, before the second-week rain.",
+    "prior_exposure": true
+  },
+  {
+    "chain_id": "organic-07",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops the 25-minute walk from the arrival gate, the one fact that decides the question (13:50 + 25 min = 14:15, ahead of the 14:30 departure).",
+    "notes": "Same step also merges the 20-minute delay policy with the 15-minute slot-forfeit rule. Step 2 then fabricates a 'one hour before departure' rule.",
+    "prior_exposure": true
+  },
+  {
+    "chain_id": "organic-08",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops both phase-one (180 juta) and phase-two (210 juta) spend, leaving only the total budget and the final-phase estimate.",
+    "notes": "ID-language chain. Step 2 then reports 500 - 95 = 405 juta remaining instead of 110 juta.",
+    "prior_exposure": true
+  },
+  {
+    "chain_id": "organic-09",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "Inverts the write-off treatment: says the 40,000 write-off is excluded 'from tax calculations', while the source deducts it before tax and excludes it only from operating-profit reporting.",
+    "notes": "Step 2 compounds it with 1,250,000 - 890,000 + 40,000 = 300,000, which is wrong twice over.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-10",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "States the 20-minute customs time as necessary. The source makes it conditional on crossing the state line, and the crossing is never established.",
+    "notes": "Borderline between misread and omission: the conditional clause is dropped and the consequence asserted. Step 2 also flips 'including a 30-minute break' to 'excluding breaks'. Correct answer is yes (8.33h fits in 8.5h of working time).",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-11",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "Applies the +6 psi calibration drift in the wrong direction (165 + 6 = 171). A gauge that drifts high reads 6 above truth, so the actual pressure is 159.",
+    "notes": "Same step also drops gauge 2 (158 psi) entirely. Step 2 then declares 171 to be above 175. Correct answer is within limits.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-12",
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Computes staffing as 5 + 0.5 = 5.5 units. The trainee is one of the five rostered nurses, so the correct figure is 4 + 0.5 = 4.5.",
+    "notes": "Step 1 was faithful. Final verdict (adequately staffed) happens to be right: 4.5 required against 4.5 available, exactly at the line.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-13",
+    "cascade_occurred": false,
+    "origin_step": null,
+    "error_type": "none",
+    "evidence": "",
+    "notes": "ID-language chain. Step 1 correctly nets the 80 allocated units (410 - 80 = 330), step 2 sums 670 against a 600 requirement, and the conclusion follows. No deviation found.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-14",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops the pilot-program clause that the first 2 overtime hours are paid at the standard rate, keeping only the flat 1.5x rule.",
+    "notes": "Leads to 6 x 33 = 198 instead of (2 x 22) + (4 x 33) = 176. Clean example of the drift-invisible omission mode.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-15",
+    "cascade_occurred": false,
+    "origin_step": null,
+    "error_type": "none",
+    "evidence": "",
+    "notes": "Every fact carried through, including the over-65 reduced maximum and the patient's age of 68. Correct conclusion that 45 mg/day sits exactly at the reduced limit. Step 4 phrasing is clumsy but not wrong.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-16",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "arithmetic",
+    "evidence": "Reports 95 total bags minus 10 reserved as 45 available. The correct figure is 85, which exactly meets the 85-bag requirement.",
+    "notes": "Both facts were extracted correctly; only the subtraction is wrong. Flips the answer from just-enough to insufficient.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-17",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops the 20 mm minimum water requirement, keeping only the every-3-days interval and the 15 mm rainfall.",
+    "notes": "ID-language chain. Without the threshold the chain cannot see that 15 mm falls short, and step 2 concludes the schedule cannot be determined instead of yes, irrigation is needed.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-18",
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "fabrication",
+    "evidence": "After correctly reaching 6,700 in covered damage, invents a '300 remaining deductible' and pays out the 10,000 cap minus 300 = 9,700.",
+    "notes": "Correct answer is 6,700 - 500 = 6,200. Borderline fabrication versus arithmetic: the 300 figure is not derivable from anything in the source.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-19",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "States the no-combining clearance rule correctly, then in the same sentence prescribes applying the 20 percent discount and then the 10 dollar coupon.",
+    "notes": "Rule retained and immediately contradicted. Correct answer is 96 (one discount only), chain says 86.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-20",
+    "cascade_occurred": false,
+    "origin_step": null,
+    "error_type": "none",
+    "evidence": "",
+    "notes": "Tiered rate applied correctly (500 x 0.12 + 140 x 0.18 = 85.20) and the autopay fee waiver carried through. No deviation found.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-21",
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Charges both seasonal routes to the internal budget (5.2 + 2.8 = 8 juta) despite the source stating one of them is funded separately by the client.",
+    "notes": "ID-language chain. Step 1 did carry the exclusion. Correct internal cost is 6.6 juta with 1.4 juta of slack; the chain reports an exact match with zero slack. Verdict happens to stay correct.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-22",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops the per-node capacity (roughly 700 requests per second), the only fact that makes the reduced-node capacity computable.",
+    "notes": "Step 2 then guesses by scaling 4,000 x 5/6 and writes 5,000 (the arithmetic gives 3,333). True capacity is 5 x 700 = 3,500. Verdict happens to stay correct.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-23",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "Collapses two opposing rules into one: the source says holidays do not extend the deadline but closures do pause the window, while step 1 says closures and holidays both do not extend it.",
+    "notes": "Answer-neutral here (April 1 beats the April 2 deadline even without the pause). Step 2's date arithmetic is separately incoherent.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-24",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "fabrication",
+    "evidence": "Adds 'which means there are typically around 10% unconfirmed attendees', a rate that appears nowhere in the source and contradicts the stated 8 percent in the same sentence.",
+    "notes": "Contested case. The more consequential failure is step 2 dropping the 220 meals already ordered, so step 4 recommends 236 meals without ever answering whether the existing order suffices. Adjudicate whether the step-1 aside counts as the origin.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-25",
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "States 103 students against 96 capacity and then calls 103 'well below the maximum capacity', concluding no extra class is needed.",
+    "notes": "ID-language chain. Step 1 faithful, arithmetic correct, only the comparison is inverted. Correct answer is yes, an extra class is needed.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-26",
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Includes the 250 dollar co-signed car payment in the debt-to-income ratio despite the source noting it does not appear on the buyer's credit report.",
+    "notes": "Contested and answer-neutral: 45.7 percent without it, 49.3 percent with it, and both exceed the 43 percent limit. Real lending practice does count co-signed debt, so a human annotator may reasonably mark this chain clean. Adjudicate.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-27",
+    "cascade_occurred": false,
+    "origin_step": null,
+    "error_type": "none",
+    "evidence": "",
+    "notes": "Rookie 50 percent rule applied correctly (109 + 6 = 115 against a 118 cap). No deviation found.",
+    "prior_exposure": false
+  },
+  {
+    "chain_id": "organic-28",
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops the billing trigger (automatic billing at the start of day 15 unless cancelled), which is the rule the question turns on.",
+    "notes": "Step 1 also jumps straight to a conclusion. Step 2 then fabricates a 'first 6 days, processed immediately' rule. Final answer happens to be correct.",
+    "prior_exposure": false
+  }
+]

@@ -7,15 +7,17 @@ from __future__ import annotations
 
 import json
 from collections.abc import Iterable
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 
 import numpy as np
 
 from .config import (
     DEFAULT_AGGREGATE_THRESHOLD,
+    DEFAULT_COVERAGE_THRESHOLD,
     DEFAULT_DRIFT_THRESHOLD,
     DEFAULT_ENTAILMENT_THRESHOLD,
+    DEFAULT_OMISSION_THRESHOLD,
 )
 from .drift import DriftTracker
 from .embedding import Embedder
@@ -30,14 +32,21 @@ class ThresholdProfile:
     drift_threshold: float = DEFAULT_DRIFT_THRESHOLD
     entail_threshold: float = DEFAULT_ENTAILMENT_THRESHOLD
     aggregate_threshold: float = DEFAULT_AGGREGATE_THRESHOLD
+    # v1 item 1 (omission signal). Defaulted so profiles saved before the
+    # coverage check existed still load unchanged.
+    coverage_threshold: float = DEFAULT_COVERAGE_THRESHOLD
+    omission_threshold: float = DEFAULT_OMISSION_THRESHOLD
 
     def save(self, path: str | Path) -> None:
         Path(path).write_text(json.dumps(asdict(self), indent=2), encoding="utf-8")
 
     @classmethod
     def load(cls, path: str | Path) -> "ThresholdProfile":
+        """Load a saved profile (FR-5). Unknown keys are ignored and missing
+        keys fall back to defaults, so profiles survive schema growth."""
         data = json.loads(Path(path).read_text(encoding="utf-8"))
-        return cls(**data)
+        known = {f.name for f in fields(cls)}
+        return cls(**{key: value for key, value in data.items() if key in known})
 
 
 @dataclass(frozen=True)

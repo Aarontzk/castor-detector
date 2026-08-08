@@ -23,6 +23,11 @@ class StepSignals:
     aggregate: float | None  # weighted anomaly score, [0, 1]
     flagged: bool
     flag_reasons: tuple[str, ...]
+    # v1 item 1 (omission signal). None when no anchor was supplied or NLI is
+    # unavailable. Deliberately outside `aggregate`: theta is calibrated over
+    # three signals, so folding a fourth in would silently change its meaning.
+    coverage: float | None = None  # fraction of anchor facts this step entails, [0, 1]
+    omission: float | None = None  # coverage lost vs the previous step, [0, 1]
 
 
 @dataclass(frozen=True)
@@ -83,13 +88,15 @@ class CascadeReport:
             f"verdict: {'CASCADE DETECTED' if self.verdict else 'no cascade detected'}"
             + (" [degraded: drift-only mode]" if self.degraded else ""),
             "",
-            f"{'step':>8}  {'agent':<12} {'d_prev':>7} {'d_anchor':>8} {'entail':>7} {'aggr':>6}  flags",
+            f"{'step':>8}  {'agent':<12} {'d_prev':>7} {'d_anchor':>8} {'entail':>7}"
+            f" {'cover':>6} {'omit':>6} {'aggr':>6}  flags",
         ]
         for s in self.steps:
             fmt = lambda v: f"{v:.3f}" if v is not None else "  -  "
             lines.append(
                 f"{str(s.step_id):>8}  {(s.agent_name or '-'):<12} {fmt(s.drift_prev):>7}"
-                f" {fmt(s.drift_anchor):>8} {fmt(s.entailment):>7} {fmt(s.aggregate):>6}"
+                f" {fmt(s.drift_anchor):>8} {fmt(s.entailment):>7} {fmt(s.coverage):>6}"
+                f" {fmt(s.omission):>6} {fmt(s.aggregate):>6}"
                 f"  {'; '.join(s.flag_reasons) if s.flagged else ''}"
             )
         if self.classification:

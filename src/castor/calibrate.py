@@ -15,8 +15,11 @@ import numpy as np
 from .config import (
     DEFAULT_AGGREGATE_THRESHOLD,
     DEFAULT_COVERAGE_THRESHOLD,
+    DEFAULT_DRIFT_COLLAPSE,
     DEFAULT_DRIFT_THRESHOLD,
+    DEFAULT_ENTAIL_COLLAPSE,
     DEFAULT_ENTAILMENT_THRESHOLD,
+    DEFAULT_OMISSION_COLLAPSE,
     DEFAULT_OMISSION_THRESHOLD,
 )
 from .drift import DriftTracker
@@ -36,6 +39,13 @@ class ThresholdProfile:
     # coverage check existed still load unchanged.
     coverage_threshold: float = DEFAULT_COVERAGE_THRESHOLD
     omission_threshold: float = DEFAULT_OMISSION_THRESHOLD
+    # v1 item 3 (verdict rework). Collapse-grade trigger levels for the
+    # trajectory verdict, stricter than the per-step flag thresholds above.
+    # `None` disables that trigger. Defaulted for the same reason as the two
+    # above: profiles saved earlier still load unchanged.
+    entail_collapse: float | None = DEFAULT_ENTAIL_COLLAPSE
+    omission_collapse: float | None = DEFAULT_OMISSION_COLLAPSE
+    drift_collapse: float | None = DEFAULT_DRIFT_COLLAPSE
 
     def save(self, path: str | Path) -> None:
         Path(path).write_text(json.dumps(asdict(self), indent=2), encoding="utf-8")

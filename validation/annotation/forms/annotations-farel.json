@@ -1,154 +1,173 @@
 [
   {
     "chain_id": "organic-02",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "\"The shipping time requirement (within 4 days) is less than the required shipping time (5 days), making this option viable\" and \"Bekasi: Can ship the entire 450 units in 2 days (capacity is sufficient)\".",
+    "notes": "Correct answer is that neither warehouse qualifies alone: Bekasi holds 380 units against an order of 450, and Semarang has the stock but needs 5 days against a 4-day request. Step 1 carried every fact faithfully. Step 2 inverts two of them at once - it calls Semarang's 5 days viable for a 4-day deadline, and states Bekasi can ship the full 450 when it holds 380. Steps 3-4 only carry that forward.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-03",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops both the sensor-A '3 degrees too high' calibration flag and the 'above 74 degrees require immediate shutdown' rule, keeping only the 40-75 safe range. The 74 shutdown threshold is the operative rule for this question and it is replaced by the wrong number (75).",
+    "notes": "Final answer (reactor is safe) stays correct by coincidence: 71 read minus the 3-degree offset is 68, and 68 < 74 either way. Step 4 additionally fabricates 'both sensors at 74 degrees Celsius', which matches neither sensor.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-04",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "fabrication",
+    "evidence": "\"for a total of 30 regular seats per wheelchair space\" and \"Total passengers including teachers: 45 (regular) + 12 (wheelchair replacement) = 57 passengers per bus\".",
+    "notes": "Correct: 184 seated passengers plus 2 wheelchair spaces (6 seats) = 190 seat-equivalents; 190/45 = 4.2, so 5 buses. With 12 teachers the one-teacher-per-bus rule is satisfied. Step 1 is correct (186 people, 6 seats consumed). Step 2 invents both '30 regular seats per wheelchair space' and a 57-seat bus capacity, neither of which is in the source. A calculation error follows (186/57 = 3.26 rounded down to 3), but the invented figures are the root. Close call between fabrication and misread (the subtraction runs the wrong way); chose fabrication because the invented 57 is what determined the final answer.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-05",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Keeps the partner-channel exclusion rule but drops the quantity it applies to (400 of the 3,420 sign-ups), which makes the exclusion impossible to apply downstream.",
+    "notes": "Correct figures: own sign-ups 3,420 - 400 = 3,020, which still beats the 3,000 target; cost per sign-up 24,500 / 3,020 = $8.11 against a $7 target. Step 2 instead divides by the full 3,420 and reports $7.13, and never checks the sign-up target at all. Borderline step 1 vs step 2 - chose step 1 per GUIDE rule 6, because the number was already gone.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-06",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops the planting date (10 Maret). Without it, '115 sampai 125 hari setelah tanam' cannot be converted into a date, and the question asks for a date.",
+    "notes": "Correct window is 3-13 July (10 March + 115 to 125 days), which straddles the onset of heavy rain in the second week of July, so the answer should be to harvest at the early end, before roughly 7 July. Steps 2-4 never compute any date and answer only in relative terms.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-08",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Step 1 omits source fact 2 entirely: \"Fase satu menghabiskan 180 juta, fase dua 210 juta\".",
+    "notes": "Correct: remaining budget = 500 - 180 - 210 = 110 juta, enough for the 95 juta final phase with 15 juta left over, so the contingency is never needed. Step 1 drops the phase-1 and phase-2 spend, which is exactly what the question turns on. As a result step 2 computes 500 - 95 and then draws on a contingency the board has not approved - a downstream effect, not the origin.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-09",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "Source: the write-off is 'deducted before tax but excluded from operating profit reporting'. Step 1 renders it as excluding the write-off 'from tax calculations', inverting the treatment - deducted before tax reduces the taxable base, excluded from tax ignores it.",
+    "notes": "Step 2 compounds this by ADDING the write-off into operating profit (Revenue - Costs + Write-off) and then miscomputing even that formula as $300,000 when it gives $400,000. Correct chain: operating profit $360,000, taxable $320,000, tax $70,400, net $249,600. Borderline step 1 vs step 2; chose step 1 because the inversion is already there.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-10",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "The 20-minute customs form is conditional in the source ('only if the shipment crosses the state line'). Step 1 states it as unconditional: 'Adding the necessary customs form processing time ... adds an additional 20 minutes.'",
+    "notes": "Two further independent errors downstream: step 2 reads 'maximum of 9 hours including a mandatory 30-minute break' as '9-hour shift (excluding breaks)', and step 3 concludes 'cannot' from its own total of 8.333 h against a 9 h limit. Correct answer is YES and it fits either way: 8:00 driving + 0:20 customs + 0:30 break = 8:50 <= 9:00.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-12",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "\"Total actual staffing units = 5 + (0.5) = 5.5\".",
+    "notes": "Requirement is 18/4 = 4.5 units. Available is 4 full nurses + trainee at 0.5 = 4.5. Exactly at the line, not 'safe with margin'. The trainee is one of the 5 rostered staff, not a sixth person. Step 1 correctly wrote 'including a trainee'; step 2 then computed 5 + 0.5. The fact is present but read backwards, hence misread rather than arithmetic.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-13",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "Clean throughout. Step 1 correctly deducts the 80 allocated units (410 - 80 = 330) and step 2 sums 340 + 330 = 670 > 600.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-14",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Step 1 drops source fact 3: \"The first 2 overtime hours each week are paid at the standard rate\".",
+    "notes": "Correct: first 2 hours at the standard rate (2 x 22 = 44), remaining 4 hours at 1.5x (4 x 33 = 132), total $176. Step 1 does not merely drop the rule, it asserts all 6 hours are paid at 33. The pilot programme still runs this quarter, so the fact applies. Steps 2-4 inherit it.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-15",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "Clean. Patient is 68, so the limit is 45 mg; the prescription is 15 x 3 = 45, exactly at the limit and therefore still within it (\"Given that the patient's age is listed as 68, which falls into the 'over 65' category\"). Step 4's phrasing is convoluted - \"The safe daily limit for the prescribed dosage... is within the recommended range\" - but its content does not deviate from the source.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-18",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Computes the covered amount correctly ($8,200 - $1,500 = $6,700) then discards it and treats the $10,000 policy CAP as the payout base: '$10,000 total coverage - $300 remaining deductible' = $9,700, which exceeds the entire $8,200 claim.",
+    "notes": "Step 1 carried every fact faithfully. The '$300 remaining deductible' is also fabricated - $300 appears nowhere in the source - but the misread of a ceiling as an entitlement is what produced the wrong answer, so per GUIDE that is the type. Correct: $6,700 - $500 = $6,200.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-20",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "Clean. Step 1 captures the autopay fee waiver and step 2 computes the tiers correctly: 60 + 25.20 = 85.20. Step 3 throws in a remark about \"negotiating a lower rate for higher consumption levels above 640 kWh\" when the tier threshold is 500, but that is an appended recommendation which never touches the billed figure, so it is not counted as an error.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-21",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Lists the client-funded route as excluded from the internal budget in its own point 3, then computes internal cost as 5.2 + 2.8 = 8 juta anyway and concludes the budget 'exactly matches' with no surplus.",
+    "notes": "Correct internal cost is 5.2 + 1.4 = 6.6 juta, leaving a 1.4 juta surplus. The final answer ('cukup') is coincidentally right but the margin is wrong. Step 1 kept every source fact including the exclusion, though it editorialises 'diprediksi sudah mencukupi'; borderline step 1 vs 2, chose step 2 because step 1 dropped and inverted nothing.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-23",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "Source states two different rules: 'Court holidays do not extend the deadline, but the filing window pauses for court closures'. Step 1 collapses them into 'Court closures and holidays do not extend the deadline', inverting the closure rule.",
+    "notes": "Final answer (filed in time) is coincidentally correct: April 1 beats the April 2 base deadline even without the 3-day pause that would move it to April 5. Step 2 also invents a garbled range, '30 days from March 3rd would fall between March 24th and April 3rd'.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-26",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "\"Car loan payments that do not appear on their own credit report: $250 ... Total monthly obligations = $1,800 + $1,400 + $250 = $3,450\".",
+    "notes": "The co-signed $250 payment does not appear on the applicant's own credit report, so the lender does not count it. DTI is therefore 3,200/7,000 = 45.7%, still above 43% and still a decline. Step 1 carried the qualifier correctly; step 2 restates the qualifier and then includes the payment anyway. The final verdict is right by coincidence but the ratio is wrong (49.29% vs 45.7%), so the deviation is real at the reasoning level. Open question for the team: if 'cascade' were defined as requiring the final verdict to change, this chain would need a ruling.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-27",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "Clean throughout.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-28",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Drops 'Billing occurs automatically at the start of day 15 unless canceled' - the rule the question turns on - and substitutes its own conclusion instead.",
+    "notes": "Step 2 then fabricates a rule found nowhere in the source ('within the first 6 days (until June 5th) where cancellations are processed immediately') and places June 10 inside it. Correct: cancellation at 9 PM on June 10 is processed June 11, billing would fall on June 15, so no charge. Borderline - step 2's fabrication is the more severe error, but step 1's omission comes first.",
+    "verified_by_human": true
   }
 ]

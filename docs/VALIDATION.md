@@ -127,10 +127,16 @@ N=8 write-up above do not survive the larger sample.
 
 | Error type at the origin | N=8 (batch 1) | N=28 (full set) |
 |---|---|---|
-| misread (fact present, meaning inverted or misapplied) | 2/8 (25%) | **11/24 (46%)** |
+| misread (fact present, meaning inverted or misapplied) | 2/8 (25%) | **12/24 (50%)** |
 | omission (fact silently dropped) | **5/8 (62%)** | 9/24 (38%) |
-| arithmetic | 1/8 (12%) | 2/24 (8%) |
 | fabrication | 0/8 | 2/24 (8%) |
+| arithmetic | 1/8 (12%) | 1/24 (4%) |
+
+The N=28 column is the human-verified labelling (updated 2026-08-08; the earlier
+machine-only pass read `organic-04` as arithmetic and `organic-18` as
+fabrication). **No origin step changed between the two passes**, so every
+attribution figure in this document is unaffected — only the type distribution
+moved.
 
 The batch-1 claim that omission dominates was an artefact of eight samples. The
 larger mode is *misread*: the step keeps the fact and inverts what it means. A
@@ -222,6 +228,68 @@ The human round is set up but not yet run: 10 chains are assigned to both
 annotators for a Cohen's kappa, the remaining 18 are split 9/9. Until that lands,
 **every number in this section rests on unverified single-pass labels** and
 should be read as provisional.
+
+### Verdict rule rework (v1 item 3) — added 2026-08-08
+
+The trajectory-level verdict is the product's headline output: the CLI exits
+non-zero on it, and in `CascadeAnalyzer._analyze` it *gates classification and
+attribution*. So the 0/28 verdict was not a cosmetic wrong boolean — it meant
+Castor returned an empty origin for every organic cascade it had, in fact,
+flagged at step level.
+
+**Diagnosis.** The old rule was `any(step.aggregate > θ)`. The aggregate is a
+weighted *mean* of three signals, so one collapsed signal is diluted by two calm
+ones: an entailment of 0.003 carries weight 0.4 against a low drift and a flat
+certainty delta, and the mean lands under θ. Averaging is the wrong operator for
+evidence that is decisive on its own.
+
+**Change.** The verdict becomes a disjunction — the aggregate rule survives as
+one disjunct, joined by per-signal triggers set at *collapse grade*, stricter
+than the per-step flag thresholds. The rule is a strict superset of the old one,
+so recall cannot fall and false positives cannot improve; the whole question is
+what the trade buys. The report now also carries `verdict_reasons`, naming which
+trigger fired and at which step — a disjunction that returns a bare boolean is
+not debuggable.
+
+**Measured: omission is not a usable verdict trigger.** Recomputed from the
+cached (step × fact) entailment matrix over all 28 annotated chains:
+
+| Max per-chain omission | Values |
+|---|---|
+| 4 chains annotated **clean** | 0.67, 0.67, 0.75, 1.00 |
+| 24 chains annotated **cascaded** | 0.33 – 1.00 |
+
+The clean chains sit at the *top* of the range. Every threshold below 0.67
+flags 4/4 clean chains; at 0.75 recall is down to 17%. The cause is the
+paraphrase-distance problem recorded above: condensing steps shed coverage
+legitimately, and clean chains lose it just as fast as broken ones (`organic-27`
+goes 1.00 → 1.00 → 0.00 → 0.00 while being correct throughout).
+
+So `omission_collapse` ships as `None` — disabled. Omission keeps its place as a
+per-step *attribution* signal, where it doubled exact-origin accuracy. Detection
+and attribution are different jobs and this signal is only good at one of them.
+
+**Also measured, and it bounds the whole problem:** "any per-step flag" gives
+24/24 recall *and* 4/4 chain-level false positives. Every clean organic chain
+trips at least one flag. At trajectory level, on this set, no threshold over
+these signals separates broken chains from healthy ones — the ceiling is not the
+rule, it is that four clean chains look exactly like cascades to every signal
+Castor currently has.
+
+**Not yet measured.** The `entail_collapse` and `drift_collapse` levels
+(0.01 / 0.9) are reasoned starting points, **not calibrated values**. The
+scoring pass that would fix them is `validation/sweep_verdict.py --refresh`,
+which sweeps single triggers and disjunction candidates over a cached pass and
+reports recall against chain-level FPR. It has not been run: the environment it
+was written in could not download the two models. Until it runs, the honest
+statement about the new rule is *the structure is fixed and the omission trigger
+is measured; the two remaining levels are provisional*.
+
+Two caveats bind any number that sweep will produce. Only **4 clean organic
+chains** exist, so chain-level FPR has 25pp resolution. And the sweep would be
+scored on the same 28 chains it tunes on — the same double-fitting objection
+already logged for the omission thresholds. A disjoint organic set remains the
+precondition for treating any of these defaults as validated.
 
 ## Self-healing loop demo (owner request, not a Castor feature)
 

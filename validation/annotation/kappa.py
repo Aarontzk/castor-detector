@@ -20,6 +20,18 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 FORMS_DIR = ROOT / "forms"
+ASSIGNMENTS = ROOT / "assignments.json"
+
+
+def overlap_chains() -> set[str]:
+    """The 10 double-annotated chains — the only valid basis for agreement.
+
+    Every pair is scored on these and nothing else. Intersecting whatever both
+    files happen to have filled would silently include the single-annotated
+    chains, where one side may be a machine draft: an LLM-vs-LLM comparison
+    would then be reported as an LLM-vs-human cross-check.
+    """
+    return set(json.loads(ASSIGNMENTS.read_text(encoding="utf-8"))["overlap"])
 
 
 def load_annotations() -> dict[str, dict[str, dict]]:
@@ -74,11 +86,13 @@ def within_one(labels_a: list, labels_b: list) -> float:
     return hits / len(labels_a) if labels_a else 0.0
 
 
-def compare(name_a: str, name_b: str, a: dict[str, dict], b: dict[str, dict]) -> None:
-    """Print the full agreement block for one annotator pair."""
-    shared = sorted(set(a) & set(b))
+def compare(
+    name_a: str, name_b: str, a: dict[str, dict], b: dict[str, dict], basis: set[str]
+) -> None:
+    """Print the full agreement block for one annotator pair, over `basis` only."""
+    shared = sorted(set(a) & set(b) & basis)
     if len(shared) < 2:
-        print(f"\n{name_a} vs {name_b}: only {len(shared)} shared chain(s), skipped")
+        print(f"\n{name_a} vs {name_b}: only {len(shared)} shared overlap chain(s), skipped")
         return
 
     origin_a = [a[c]["origin_step"] for c in shared]
@@ -118,12 +132,15 @@ def main() -> None:
         print("no filled annotations found in", FORMS_DIR)
         return
 
+    basis = overlap_chains()
     print("filled annotations per annotator:")
     for name, records in sorted(annotations.items()):
-        print(f"  {name}: {len(records)} chains")
+        drafted = sum(1 for r in records.values() if r.get("verified_by_human") is False)
+        suffix = f" ({drafted} machine-drafted, unverified)" if drafted else ""
+        print(f"  {name}: {len(records)} chains, {len(set(records) & basis)}/10 overlap{suffix}")
 
     for name_a, name_b in combinations(sorted(annotations), 2):
-        compare(name_a, name_b, annotations[name_a], annotations[name_b])
+        compare(name_a, name_b, annotations[name_a], annotations[name_b], basis)
 
     print("\nNote: the paper reports human-vs-human kappa as the reliability")
     print("figure. LLM-vs-human pairs are a cross-check on the machine-assisted")

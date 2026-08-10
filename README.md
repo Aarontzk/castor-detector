@@ -26,7 +26,7 @@ Knowing *where* and *what type* turns "my AI is flaky" into a one-line fix:
 | Origin = extractor, facts dropped | the extraction prompt | the whole downstream |
 | Certainty rising with no new evidence | the handoff format between agents | the models |
 
-In our organic validation (real local-LLM chains), 5 of 8 cascades originated at a single extraction step — one prompt fix addressed the majority failure mode of that pipeline.
+In our organic validation (28 real local-LLM chains, 24 of which cascaded), the dominant origin was a *misread* — a step that keeps the source fact and inverts what it means (12/24, 50%), ahead of silent omission (9/24, 38%). Castor puts the first flag within one step of the annotated origin on 23 of 24 chains, so the fix lands on one prompt instead of four.
 
 ## The ladder: from debugging to auto-healing
 
@@ -98,17 +98,29 @@ The research-inherited defaults flagged 93% of clean trajectories in our validat
 
 - **Attribution is threshold-based candidate identification, not causal proof.** Every attribution carries `method: "threshold-based"` + a confidence score.
 - **Small token-level fabrications (a wrong number, a swapped name) mostly evade embedding drift** (~29% detection) — claim-level verification is the #1 v1 item. Semantic-shift cascades detect at ~73%.
-- **Extraction omission** — an agent silently dropping a key fact — is invisible to drift and entailment by construction; found to be the dominant organic failure mode (5/8). Completeness signal planned for v1.
+- **Extraction omission** — an agent silently dropping a key fact — is invisible to drift and forward entailment by construction. The reverse-entailment completeness signal now ships (`src/castor/omission.py`): it doubles exact-origin accuracy on the organic set (25% → 50%, within-1 75% → 96%) and adds no detection, only attribution. It costs precision: step-level false positives on clean chains rise 31% → 44%.
+- **Fact-level coverage measures paraphrase distance as much as completeness.** A faithful extractor that paraphrases instead of quoting scores only 0.54 mean coverage, which is what drives most omission false positives.
 - Aggregator weights are manual defaults from the CHARM paper, not learned. Confidence-language tracking is lexicon-based (EN+ID), secondary only.
+- **The trajectory-level verdict is the weakest part of the system.** It is a disjunction over per-signal triggers (`report.verdict_reasons` names which one fired), replacing an aggregate-only rule that returned "no cascade" on 24/24 real cascades. Two of its trigger levels are still uncalibrated starting points. And on our organic set *every* clean chain trips at least one per-step flag, so no threshold over the current signals cleanly separates broken trajectories from healthy ones. Trust the per-step output and the origin candidate before you trust the boolean.
 - Adversarial/prompt-injection defense is permanently out of scope (see CASPIAN / LLM Guard).
 
 ## Development
 
 ```
 pip install -e ".[dev]"
-pytest                                   # 89 tests; model-based ones download on first run
+pytest                                   # model-based tests download ~1.2 GB on first run
 python validation/run_validation.py      # synthetic metrics + ablation
 python validation/agent_chain.py         # generate organic trajectories via Ollama
+python validation/sweep_verdict.py       # verdict-trigger sweep (cached after one pass)
+python validation/export_hf_dataset.py   # rebuild the published benchmark dataset
+```
+
+No network? The fake-model suite covers everything except the two model
+integrations:
+
+```
+pytest --ignore=tests/test_e2e.py --ignore=tests/test_e2e_full.py \
+       --ignore=tests/test_embedding.py --ignore=tests/test_entailment.py
 ```
 
 Spec: `castor-prd.md` · Status: `STATUS.md` · Validation: `docs/VALIDATION.md` · Benchmark: `docs/BENCHMARK.md` · License: MIT

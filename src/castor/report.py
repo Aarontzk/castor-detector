@@ -66,6 +66,10 @@ class CascadeReport:
     notes: tuple[str, ...] = ()
     degraded: bool = False  # drift-only mode (NLI unavailable, FR-12)
     monitoring_failure: str | None = None
+    # v1 item 3: which trigger(s) fired the trajectory verdict. Empty when the
+    # verdict is False. The verdict is a disjunction, so naming the trigger is
+    # the difference between "cascade detected" and an actionable answer.
+    verdict_reasons: tuple[str, ...] = ()
 
     @property
     def flagged_steps(self) -> tuple[StepSignals, ...]:
@@ -87,6 +91,7 @@ class CascadeReport:
             f"Castor {self.castor_version} — cascade analysis",
             f"verdict: {'CASCADE DETECTED' if self.verdict else 'no cascade detected'}"
             + (" [degraded: drift-only mode]" if self.degraded else ""),
+            *(f"  triggered by: {reason}" for reason in self.verdict_reasons),
             "",
             f"{'step':>8}  {'agent':<12} {'d_prev':>7} {'d_anchor':>8} {'entail':>7}"
             f" {'cover':>6} {'omit':>6} {'aggr':>6}  flags",

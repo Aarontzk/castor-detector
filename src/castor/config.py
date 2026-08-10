@@ -29,6 +29,37 @@ DEFAULT_AGGREGATOR_WEIGHTS = (0.4, 0.4, 0.2)
 # multi-label classification output.
 DEFAULT_CLASSIFICATION_THRESHOLD = 0.4
 
+# v1 item 3: trajectory-level verdict triggers.
+#
+# The aggregate above is a weighted MEAN, so one collapsed signal is diluted by
+# the calm ones: an entailment of 0.003 is strong evidence on its own, but
+# averaged at weight 0.4 against low drift and a flat certainty delta it lands
+# under theta. Measured consequence on the organic set: the aggregate rule fired
+# on 0 of 24 annotated cascades that per-step flags all caught.
+#
+# The verdict is therefore a DISJUNCTION — aggregate OR any single signal
+# collapsing on its own. These trigger levels are deliberately stricter than the
+# per-step flag thresholds: a step is worth showing the user at the flag level,
+# but the trajectory verdict should need collapse-grade evidence.
+#
+# `None` disables a trigger, leaving the disjunction to the remaining ones.
+#
+# UNMEASURED (2026-08-08): the entailment and drift levels below are reasoned
+# starting points, NOT calibrated values — the full organic scoring pass that
+# would fix them is pending (`validation/sweep_verdict.py --refresh`). Treat
+# them as provisional and recalibrate per domain. See STATUS.md.
+DEFAULT_ENTAIL_COLLAPSE: float | None = 0.01
+DEFAULT_DRIFT_COLLAPSE: float | None = 0.9
+
+# MEASURED, and the measurement is why this is None. Over the 28 annotated
+# organic chains the maximum per-chain omission is 0.67/0.67/0.75/1.00 on the
+# four chains annotated CLEAN — the top of the range, overlapping the cascaded
+# chains (0.33-1.00) completely. Every threshold below 0.67 flags 4/4 clean
+# chains; 0.75 keeps only 17% recall. Omission earns its place as a per-step
+# attribution signal (it doubled exact-origin accuracy) but it cannot separate
+# broken trajectories from healthy ones, so it is not a verdict trigger.
+DEFAULT_OMISSION_COLLAPSE: float | None = None
+
 # FR-11: embedding-cache sliding window for very long trajectories — the
 # anchor embedding is always retained, plus this many most recent steps.
 DEFAULT_CACHE_WINDOW = 128

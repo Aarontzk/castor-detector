@@ -10,8 +10,9 @@ Status of inputs:
 |---|---|---|
 | Organic set N=28, annotated | Fabio | done |
 | Completeness (omission) signal | Fabio | done, measured |
-| Cohen's kappa, two annotators | Farel + Fabio | **pending**, protocol prepared |
-| Verdict rule rework | Farel | **pending** |
+| Cohen's kappa, machine vs human | Farel | done — origin kappa 1.000, type 0.859 (n=10) |
+| Cohen's kappa, human vs human | Fabio | **pending** — second annotator outstanding |
+| Verdict rule rework | Farel | implemented + omission trigger measured; two trigger levels **unmeasured** (see 2.5) |
 
 ---
 
@@ -52,14 +53,43 @@ annotators, stratified across both collection batches and both question
 languages; the remaining 18 are split 9/9
 (`validation/annotation/prepare.py`, seed 42).
 
-> **PENDING (Farel + Fabio).** Cohen's kappa on the 10-chain overlap, produced
-> by `validation/annotation/kappa.py`. The results below currently rest on a
-> single machine-assisted pass whose origin labels match the earlier human
-> annotations on all 8 batch-1 chains — agreement that is *not* independent,
-> because that pass had already seen the batch-1 table. Every organic number in
-> this section is provisional until the human round lands. If kappa falls below
-> 0.6 it is reported as measured, because a low kappa is itself a finding about
-> how hard origin attribution is to label.
+**Machine-versus-human agreement (measured).** One human annotator completed all
+ten overlap chains by hand, without reading the machine pass or any other
+annotator's labels. Against the machine pass on the same ten:
+
+| Field | Agreement | Cohen's kappa |
+|---|---|---|
+| `origin_step` | 10/10 exact (100%) | **1.000** |
+| `error_type` | 9/10 (90%) | **0.859** |
+| `cascade_occurred` | 10/10 (100%) | — |
+
+Perfect agreement on *where* the chain broke, across ten chains spanning both
+batches and both languages, is the figure that matters here: origin step is what
+Castor is scored against, and it is the label a reader has most reason to
+suspect. The single error-type disagreement (`organic-04`) is not a disagreement
+about the origin — both passes place it at step 2 — but about how to name an
+error that is simultaneously an invented quantity and a miscalculation built on
+it. The human annotator recorded the reasoning at labelling time: step 2 invents
+both "30 regular seats per wheelchair space" and a 57-seat bus capacity, neither
+present in the source, and the arithmetic slip that follows (186/57 = 3.26
+rounded to 3) is downstream of the invention. We report the human label
+(`fabrication`) and note the alternative.
+
+Two caveats. Ten items is a small basis, and kappa on a near-degenerate label
+distribution is unstable — the origin figure should be read as "no disagreement
+was found in ten chains", not as a precise 1.000. And the human annotator had
+previously reviewed machine-drafted labels for nine *different* (non-overlap)
+chains, which cannot leak an overlap label but does expose the machine pass's
+reasoning style.
+
+> **PENDING (second annotator).** Human-versus-human kappa on the same ten
+> chains is the figure the protocol was designed around and it is not yet
+> available: the second annotator's pass is outstanding. Until it lands, label
+> reliability rests on the machine-versus-human comparison above, which is
+> weaker evidence — a single human confirming a machine pass is not two
+> independent humans agreeing. If that kappa falls below 0.6 it is reported as
+> measured, because a low kappa is itself a finding about how hard origin
+> attribution is to label.
 
 ---
 
@@ -77,10 +107,16 @@ failure mode. At N=28 that does not hold (`validation/annotation/summarize.py`):
 
 | Error type at origin | N=8 | N=28 |
 |---|---|---|
-| misread (fact retained, meaning inverted or misapplied) | 2/8 (25%) | **11/24 (46%)** |
+| misread (fact retained, meaning inverted or misapplied) | 2/8 (25%) | **12/24 (50%)** |
 | omission (fact silently dropped) | **5/8 (62%)** | 9/24 (38%) |
-| arithmetic | 1/8 (12%) | 2/24 (8%) |
 | fabrication | 0/8 (0%) | 2/24 (8%) |
+| arithmetic | 1/8 (12%) | 1/24 (4%) |
+
+The N=28 column reflects the human-verified labels. The machine-only pass read
+`organic-04` as arithmetic and `organic-18` as fabrication; the human pass
+reversed both. Notably, **no origin step differed between the two passes**, so
+every attribution result below is unchanged by the correction — the labelling
+disagreement is entirely about naming the error, not locating it.
 
 The larger mode is *misread*. The model keeps the critical fact and inverts what
 it means: a gauge with a "+6 psi calibration drift" is corrected upward instead
@@ -171,11 +207,62 @@ organic set is the precondition for moving the default.
 
 ### 2.5 Verdict rule
 
-> **PENDING (Farel).** The trajectory-level verdict currently fires on 0/28
-> organic cascades: the aggregate threshold calibrated on synthetic clean data
-> does not transfer, while the per-step flags it ignores catch every one of
-> them. The rework replaces the aggregate-only rule with per-signal disjunction.
-> This section reports the before/after on the same 28 chains.
+The trajectory-level verdict fired on **0 of 24** organic cascades, while the
+per-step flags it ignores caught all 24. The gap matters more than a wrong
+boolean suggests: in our implementation the verdict *gates* classification and
+attribution, so a false verdict returned an empty origin for every organic
+cascade the system had already detected internally.
+
+The cause is the aggregation operator. The rule was `any(step.aggregate > θ)`,
+and the aggregate is a weighted mean of drift, entailment violation and
+certainty inflation. A mean dilutes decisive evidence: an entailment of 0.003
+enters at weight 0.4 alongside a low drift and a flat certainty delta, and the
+result falls below θ. Averaging is the wrong operator for a signal that is
+conclusive on its own.
+
+We replace it with a disjunction. The aggregate rule survives as one disjunct,
+joined by per-signal triggers set at *collapse grade* — deliberately stricter
+than the per-step flag thresholds, on the principle that a step is worth showing
+the user at flag grade but a trajectory should be declared broken only on
+collapse-grade evidence. The new rule is a strict superset of the old, so recall
+cannot decrease and false positives cannot improve; the entire question is what
+the trade buys. The report additionally carries `verdict_reasons`, naming the
+trigger and the step, since a disjunction that returns only a boolean cannot be
+debugged.
+
+**Omission fails as a verdict trigger, and the failure is informative.**
+Recomputing per-chain maxima over all 28 chains:
+
+| Max per-chain omission | Values |
+|---|---|
+| 4 chains annotated clean | 0.67, 0.67, 0.75, 1.00 |
+| 24 chains annotated cascaded | 0.33 – 1.00 |
+
+The clean chains occupy the top of the range. Any threshold below 0.67 flags
+4/4 clean chains; at 0.75 recall falls to 17%. The cause is the paraphrase
+effect of Section 2.4: condensing steps shed coverage legitimately, and a
+correct chain sheds it as fast as a broken one — `organic-27` runs
+1.00 → 1.00 → 0.00 → 0.00 while remaining correct throughout. We therefore ship
+the omission trigger disabled. The signal that doubled *attribution* accuracy is
+useless for *detection*, which is a concrete instance of a general point: the
+two tasks reward different properties, and a signal validated on one should not
+be assumed to transfer to the other.
+
+**A bound on the whole approach.** Taking "any per-step flag" as the most
+permissive rule available gives 24/24 recall and 4/4 chain-level false
+positives. On this set no threshold over Castor's current signals separates
+broken trajectories from healthy ones. The limitation is not the decision rule
+but the signals: four clean chains look exactly like cascades to every one of
+them.
+
+> **Not yet measured.** The `entail_collapse` (0.01) and `drift_collapse` (0.9)
+> levels are reasoned starting points, not calibrated values. The sweep that
+> would fix them (`validation/sweep_verdict.py --refresh`) is implemented but
+> was not run: the authoring environment could not download the two models. Any
+> recall figure for the new rule must come from that run. Two caveats will bind
+> it regardless — four clean organic chains give chain-level FPR a 25pp
+> resolution, and the sweep tunes on the same 28 chains it scores, the
+> double-fitting objection already recorded for the omission thresholds.
 
 ---
 
@@ -284,6 +371,15 @@ python validation/annotation/kappa.py         # Section 1.2 (pending human round
 python validation/measure_omission.py         # Section 2.2 attribution table
 python validation/measure_fpr.py              # Section 2.3 false positives
 python validation/sweep_omission.py           # Section 2.4 sweep
-python -m pytest tests/ --ignore=tests/test_e2e_full.py   # 102 passed, 1 skipped
-                                              # (17 of those cover the new signal)
+python validation/sweep_verdict.py --refresh  # Section 2.5 verdict triggers
+python validation/export_hf_dataset.py        # rebuild the published dataset
+python -m pytest tests/                       # full suite; needs the two models
+```
+
+The fake-model subset runs without any download and covers the verdict rule:
+
+```
+python -m pytest tests/ --ignore=tests/test_e2e.py --ignore=tests/test_e2e_full.py \
+                        --ignore=tests/test_embedding.py --ignore=tests/test_entailment.py
+# 103 passed, 1 skipped (12 of those pin the reworked verdict rule)
 ```

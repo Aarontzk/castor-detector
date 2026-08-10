@@ -114,7 +114,7 @@ class CascadeAnalyzer:
         signals = self._merge_signals(
             drift_report, measurable, entail_results, certainty, coverage
         )
-        verdict = self._verdict(signals)
+        verdict, verdict_reasons = self._verdict(signals)
         roles = {step.step_id: step.role for step in measurable}
         entail_threshold = self._profile.entail_threshold if entail_results is not None else None
         classification = classify(
@@ -129,6 +129,7 @@ class CascadeAnalyzer:
 
         return CascadeReport(
             verdict=verdict,
+            verdict_reasons=verdict_reasons,
             steps=tuple(signals),
             classification=classification,
             attribution=candidates,
@@ -249,12 +250,51 @@ class CascadeAnalyzer:
             )
         return signals
 
-    def _verdict(self, signals: list[StepSignals]) -> bool:
-        """Cascade verdict: any step's aggregate crosses the aggregate threshold."""
-        return any(
-            s.aggregate is not None and s.aggregate > self._profile.aggregate_threshold
-            for s in signals
-        )
+    def _verdict(self, signals: list[StepSignals]) -> tuple[bool, tuple[str, ...]]:
+        """Cascade verdict as a disjunction over per-signal triggers (v1 item 3).
+
+        Returns (verdict, reasons). Fires when the aggregate crosses theta OR
+        any single signal collapses on its own, because the aggregate is a
+        weighted MEAN and dilutes exactly the evidence that matters most: an
+        entailment of 0.003 averaged against two calm signals lands under theta.
+        Measured on the organic set, the aggregate-only rule returned False on
+        all 24 annotated cascades that per-step flags caught.
+
+        Collapse levels are deliberately stricter than the per-step flag
+        thresholds — a step is worth showing at flag grade, but the trajectory
+        verdict should require collapse grade. A `None` level disables that
+        trigger; `omission_collapse` is None by default because measurement
+        showed omission cannot separate broken chains from healthy ones (see
+        config.py).
+        """
+        profile = self._profile
+        reasons: list[str] = []
+
+        def extreme(attribute: str, best):
+            """(value, step_id) of the most extreme step for one signal."""
+            values = [
+                (getattr(s, attribute), s.step_id)
+                for s in signals
+                if getattr(s, attribute) is not None
+            ]
+            return best(values) if values else None
+
+        def trigger(attribute: str, best, level: float | None, operator: str, label: str) -> None:
+            if level is None:
+                return
+            found = extreme(attribute, best)
+            if found is None:
+                return
+            value, step_id = found
+            crossed = value > level if operator == ">" else value < level
+            if crossed:
+                reasons.append(f"{label} {value:.3f} {operator} {level} at step {step_id}")
+
+        trigger("aggregate", max, profile.aggregate_threshold, ">", "aggregate")
+        trigger("entailment", min, profile.entail_collapse, "<", "entailment collapse")
+        trigger("omission", max, profile.omission_collapse, ">", "omission")
+        trigger("drift_anchor", max, profile.drift_collapse, ">", "anchor drift")
+        return bool(reasons), tuple(reasons)
 
     def _thresholds_dict(self) -> dict[str, Any]:
         return {
@@ -265,6 +305,9 @@ class CascadeAnalyzer:
             "weights": (self._weights.drift, self._weights.entailment, self._weights.confidence),
             "coverage_threshold": self._profile.coverage_threshold,
             "omission_threshold": self._profile.omission_threshold,
+            "entail_collapse": self._profile.entail_collapse,
+            "omission_collapse": self._profile.omission_collapse,
+            "drift_collapse": self._profile.drift_collapse,
             "anchor_facts": len(self._anchor_facts),
         }
 

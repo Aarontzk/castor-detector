@@ -10,8 +10,7 @@ Status of inputs:
 |---|---|---|
 | Organic set N=28, annotated | Fabio | done |
 | Completeness (omission) signal | Fabio | done, measured |
-| Cohen's kappa, machine vs human | Farel | done — origin kappa 1.000, type 0.859 (n=10) |
-| Cohen's kappa, human vs human | Fabio | **pending** — second annotator outstanding |
+| Cohen's kappa, human vs human | Farel + Fabio | done — origin 0.844, type 0.589 (n=10) |
 | Verdict rule rework | Farel | implemented + omission trigger measured; two trigger levels **unmeasured** (see 2.5) |
 
 ---
@@ -53,43 +52,62 @@ annotators, stratified across both collection batches and both question
 languages; the remaining 18 are split 9/9
 (`validation/annotation/prepare.py`, seed 42).
 
-**Machine-versus-human agreement (measured).** One human annotator completed all
-ten overlap chains by hand, without reading the machine pass or any other
-annotator's labels. Against the machine pass on the same ten:
+**Inter-annotator agreement (measured).** Two human annotators independently
+labelled all ten overlap chains, neither reading the other's file nor the
+machine pass. Agreement on those ten (`validation/annotation/kappa.py`):
 
-| Field | Agreement | Cohen's kappa |
-|---|---|---|
-| `origin_step` | 10/10 exact (100%) | **1.000** |
-| `error_type` | 9/10 (90%) | **0.859** |
-| `cascade_occurred` | 10/10 (100%) | — |
+| Pair | `origin_step` exact | kappa | `error_type` agree | kappa | `cascade_occurred` |
+|---|---|---|---|---|---|
+| **human vs human** | 9/10 (90%) | **0.844** | 7/10 (70%) | **0.589** | 9/10 (90%) |
+| machine vs human A | 10/10 (100%) | 1.000 | 9/10 (90%) | 0.859 | 10/10 (100%) |
+| machine vs human B | 9/10 (90%) | 0.844 | 8/10 (80%) | 0.718 | 9/10 (90%) |
 
-Perfect agreement on *where* the chain broke, across ten chains spanning both
-batches and both languages, is the figure that matters here: origin step is what
-Castor is scored against, and it is the label a reader has most reason to
-suspect. The single error-type disagreement (`organic-04`) is not a disagreement
-about the origin — both passes place it at step 2 — but about how to name an
-error that is simultaneously an invented quantity and a miscalculation built on
-it. The human annotator recorded the reasoning at labelling time: step 2 invents
-both "30 regular seats per wheelchair space" and a 57-seat bus capacity, neither
-present in the source, and the arithmetic slip that follows (186/57 = 3.26
-rounded to 3) is downstream of the invention. We report the human label
-(`fabrication`) and note the alternative.
+**The two labels do not have the same reliability, and the gap is the finding.**
+Annotators agree substantially on *where* a chain broke (kappa 0.844) and much
+less on *what to call* the error (kappa 0.589, below the 0.6 threshold we
+committed to in advance). We report the low figure as measured rather than
+adjusting the scheme to raise it.
 
-Two caveats. Ten items is a small basis, and kappa on a near-degenerate label
-distribution is unstable — the origin figure should be read as "no disagreement
-was found in ten chains", not as a precise 1.000. And the human annotator had
-previously reviewed machine-drafted labels for nine *different* (non-overlap)
-chains, which cannot leak an overlap label but does expose the machine pass's
-reasoning style.
+This asymmetry is convenient for us and we want to be explicit that we did not
+arrange it: `origin_step` is the label Castor is actually scored against, and it
+is the reliable one. The classification output is scored against the label that
+humans agree on least. Reported classification accuracy should be read with a
+ceiling imposed by that noise — with `error_type` agreement at 70%, a classifier
+matching human labels much beyond that is fitting one annotator's convention,
+not measuring a fact about the world.
 
-> **PENDING (second annotator).** Human-versus-human kappa on the same ten
-> chains is the figure the protocol was designed around and it is not yet
-> available: the second annotator's pass is outstanding. Until it lands, label
-> reliability rests on the machine-versus-human comparison above, which is
-> weaker evidence — a single human confirming a machine pass is not two
-> independent humans agreeing. If that kappa falls below 0.6 it is reported as
-> measured, because a low kappa is itself a finding about how hard origin
-> attribution is to label.
+All three disagreements are informative rather than careless:
+
+- **`organic-04`** — `arithmetic` vs `fabrication`, both at step 2. Step 2
+  invents "30 regular seats per wheelchair space" and a 57-seat bus capacity,
+  neither in the source, then miscalculates from them (186/57 = 3.26 rounded to
+  3). Two error types genuinely co-occur; the scheme forces one.
+- **`organic-12`** — `arithmetic` vs `misread`, both at step 2. The step writes
+  "5 + (0.5) = 5.5", which is arithmetically correct. The error is treating a
+  trainee described as one *of* five rostered staff as a sixth. Whether that is
+  bad arithmetic or a misread of the roster is a real definitional question.
+- **`organic-26`** — the only disagreement about whether a cascade occurred at
+  all. Step 2 includes a co-signed payment the source states the lender does not
+  count, giving a debt-to-income ratio of 49.29% instead of 45.7%. Both ratios
+  exceed the 43% threshold, so the final decision is unchanged. One annotator
+  marked a deviation (the scheme asks whether any step deviates from the
+  source); the other marked the chain clean (the answer never changed). One
+  annotator flagged this ambiguity in their notes *at labelling time*, before
+  seeing any disagreement.
+
+`organic-26` exposes a genuine gap in our scheme: it defines a cascade as
+deviation from the source, but a reader may reasonably expect "cascade" to mean
+the output was corrupted. Both readings are defensible and the guide names only
+one. We record it as a scheme defect found by annotation, which is part of what
+double-annotation is for.
+
+Caveats. Ten items is a small basis and kappa on a skewed label distribution is
+unstable, so these values carry wide intervals — treat 0.844 as "substantial
+agreement" rather than a point estimate. One annotator had previously reviewed
+machine-drafted labels for nine *different*, non-overlap chains: that cannot
+leak an overlap label, but it does expose the machine pass's reasoning style,
+and it is the likely reason that annotator agrees with the machine more closely
+than the two humans agree with each other.
 
 ---
 
@@ -98,7 +116,7 @@ reasoning style.
 ### 2.1 Organic chains cascade, and the failure mode is not what N=8 suggested
 
 24 of 28 chains (86%) deviated from their source without any injection. The
-origin sits at step 1 in 16 of 24 cases (67%) and step 2 in the remaining 8: the
+origin sits at step 1 in 15 of 24 cases (62%) and step 2 in the remaining 9: the
 extractor, the only agent that ever sees the source, is where most cascades
 begin.
 
@@ -107,16 +125,18 @@ failure mode. At N=28 that does not hold (`validation/annotation/summarize.py`):
 
 | Error type at origin | N=8 | N=28 |
 |---|---|---|
-| misread (fact retained, meaning inverted or misapplied) | 2/8 (25%) | **12/24 (50%)** |
-| omission (fact silently dropped) | **5/8 (62%)** | 9/24 (38%) |
-| fabrication | 0/8 (0%) | 2/24 (8%) |
-| arithmetic | 1/8 (12%) | 1/24 (4%) |
+| misread (fact retained, meaning inverted or misapplied) | 2/8 (25%) | **11/24 (46%)** |
+| omission (fact silently dropped) | **5/8 (62%)** | 8/24 (33%) |
+| fabrication | 0/8 (0%) | 1/24 (4%) |
+| arithmetic | 1/8 (12%) | 4/24 (17%) |
 
-The N=28 column reflects the human-verified labels. The machine-only pass read
-`organic-04` as arithmetic and `organic-18` as fabrication; the human pass
-reversed both. Notably, **no origin step differed between the two passes**, so
-every attribution result below is unchanged by the correction — the labelling
-disagreement is entirely about naming the error, not locating it.
+The N=28 column is the resolved human labelling, and it supersedes an earlier
+machine-only pass. Four labels moved: three error types (`organic-18`,
+`organic-22`, `organic-25`) and one origin step (`organic-22`, step 1 to step 2).
+Attribution results below are scored against these human labels, not the machine
+pass, and the single origin correction moved them slightly *up* — Castor had
+predicted step 2 for `organic-22` and the machine label, not Castor, was the
+thing that was wrong.
 
 The larger mode is *misread*. The model keeps the critical fact and inverts what
 it means: a gauge with a "+6 psi calibration drift" is corrected upward instead
@@ -152,10 +172,10 @@ Measured over the 28 annotated chains at shipped defaults
 
 | Origin attribution | drift + entailment | + completeness |
 |---|---|---|
-| all cascaded, exact | 6/24 (25%) | **12/24 (50%)** |
+| all cascaded, exact | 7/24 (29%) | **13/24 (54%)** |
 | all cascaded, within-1 | 18/24 (75%) | **23/24 (96%)** |
-| omission-labelled chains, exact | 0/9 (0%) | **5/9 (56%)** |
-| omission-labelled chains, within-1 | 7/9 (78%) | **9/9 (100%)** |
+| omission-labelled chains, exact | 0/8 (0%) | **5/8 (62%)** |
+| omission-labelled chains, within-1 | 6/8 (75%) | **8/8 (100%)** |
 
 Two things are worth separating. The signal adds **no detection**: both
 configurations flag 24/24 cascades, and there is no chain where the completeness
@@ -368,7 +388,8 @@ Ranked by measured value rather than novelty:
 python validation/annotation/prepare.py       # split, forms, review sheet
 python validation/annotation/summarize.py     # Section 2.1 distributions
 python validation/annotation/kappa.py         # Section 1.2 (pending human round)
-python validation/measure_omission.py         # Section 2.2 attribution table
+python validation/measure_attribution.py      # Section 2.2 attribution table (no models needed)
+python validation/measure_omission.py         # same, via a full scoring pass (needs models)
 python validation/measure_fpr.py              # Section 2.3 false positives
 python validation/sweep_omission.py           # Section 2.4 sweep
 python validation/sweep_verdict.py --refresh  # Section 2.5 verdict triggers

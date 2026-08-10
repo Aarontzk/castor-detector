@@ -38,12 +38,12 @@ Synthetic set (30 clean + 150 injected):
 
 Organic set, extended to N=28 on 2026-08-07 (all labels annotated, `validation/annotation/`):
 
-- 24/28 chains cascaded, 4 clean. Origin attribution with the omission signal: **50% exact, 96% within-1** (25%/75% without it)
-- Dominant failure mode is **misread** (12/24), not omission (9/24) — the N=8 "omission dominates" claim did not survive the larger sample
+- 24/28 chains cascaded, 4 clean. Origin attribution with the omission signal, scored against the resolved human labels: **54% exact, 96% within-1** (29%/75% without it)
+- Dominant failure mode is **misread** (11/24), not omission (8/24) — the N=8 "omission dominates" claim did not survive the larger sample
 - First organic FPR measurable: **4/4 clean chains flagged**, 31% of clean steps before the omission signal and 44% after
 - Trajectory-level verdict fired on 0/28 under the old aggregate-only rule. The rule was reworked 2026-08-08 (item 3 below); the replacement's recall is **not yet measured** — run `validation/sweep_verdict.py --refresh` before quoting a number anywhere
 
-Annotation status (2026-08-08): Farel's form is **19/19 complete and human-verified** — 10 overlap annotated by hand, 9 single machine-drafted then human-verified. Measured machine-vs-human agreement on the 10 overlap chains: **origin_step kappa 1.000 (10/10 exact), error_type kappa 0.859 (9/10)**, one disagreement on `organic-04` (arithmetic vs fabrication, same origin step). Fabio's form is still **0/19**, so human-vs-human kappa — the figure the protocol was built for — is not yet available.
+Annotation COMPLETE (2026-08-10): both annotators finished 19/19. All 28 organic chains now carry a human label. **Human-vs-human Cohen's kappa on the 10 overlap chains: `origin_step` 0.844 (9/10 exact), `error_type` 0.589 (7/10), `cascade_occurred` 9/10.** Error-type kappa is below the 0.6 threshold set in advance and is reported as measured — annotators agree on *where* a chain broke far more than on *what to call* the error, which puts a noise ceiling on classification accuracy. Three disagreements, all substantive: `organic-04` and `organic-12` (error type only, same origin step) and `organic-26`, which exposed a real gap in the scheme — it defines cascade as deviation from the source, but that chain deviates without changing the final answer.
 
 ## Open items (owner decisions)
 

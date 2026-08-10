@@ -70,10 +70,10 @@ made.
 
 | Error type | Count |
 |---|---|
-| `misread` (fact present, meaning inverted) | 12/24 (50%) |
-| `omission` (fact silently dropped) | 9/24 (38%) |
-| `fabrication` | 2/24 (8%) |
-| `arithmetic` | 1/24 (4%) |
+| `misread` (fact present, meaning inverted) | 11/24 (46%) |
+| `omission` (fact silently dropped) | 8/24 (33%) |
+| `fabrication` | 1/24 (4%) |
+| `arithmetic` | 4/24 (17%) |
 
 `misread` dominating is a correction to an earlier N=8 reading of this data,
 where `omission` appeared dominant. That was a small-sample artefact.

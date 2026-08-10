@@ -1,154 +1,173 @@
 [
   {
     "chain_id": "organic-01",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Step 2 computes Q2 operating profit as $210,000 minus the $15,000 grant ('subtract the one-time grant'). The source says the grant is excluded from operating profit, i.e. it never enters the calculation at all, not that it is deducted from it.",
+    "notes": "Step 1 carried the exclusion faithfully; step 2 inverts what 'excluded from operating profit' means.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-02",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "misread",
+    "evidence": "Step 2 states 'Bekasi: Can ship the entire 450 units in 2 days (capacity is sufficient)', contradicting the extracted fact that Bekasi has only 380 units in stock for a 450-unit order.",
+    "notes": "Step 2 text is truncated mid-sentence on the Semarang comparison; judged only on the Bekasi claim, which is unambiguous on its own.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-04",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "arithmetic",
+    "evidence": "Step 2's seat accounting is internally inconsistent: '186 - (2*3) = 180', then '6 + (2*3) = 12', then an unexplained '57 passengers per bus', then 'Ceiling(186 / 57) = 3 buses' even though 186/57 is about 3.26, whose ceiling is 4.",
+    "notes": "Correct bus count depends on how wheelchair seat-equivalents are modeled; regardless, the stated arithmetic does not follow from its own numbers.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-07",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Step 1 drops the source fact that connecting passengers face 'a 25-minute walk from the departure gate', needed to judge whether they can make the 14:30 departure at all (13:50 landing + 25 min walk = 14:15, only 15 minutes of margin, before any delay policy applies).",
+    "notes": "Step 2's '1 hour before departure' framing and the resulting delay math are not grounded in any source fact; likely compensating for the missing walk-time figure.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-08",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Step 1 drops 'Fase satu menghabiskan 180 juta, fase dua 210 juta', the two figures needed to compute remaining budget. Step 2 then computes remaining budget as 500-95=405 juta, never subtracting the phases already spent.",
+    "notes": "Correct remaining budget before the final phase is 500-180-210=110 juta; contingency (50 juta) also requires director approval per source but step 2 adds it in freely.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-11",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "Step 1 corrects gauge 1's reading as '165 psi... indicating an actual reading closer to 171 psi' (165+6). The source says gauge 1 has a +6 psi drift, i.e. it reads 6 psi too high, so the corrected/actual value should be 165-6=159, not 165+6=171.",
+    "notes": "Step 2 compounds this by claiming '171 psi... is above the upper limit of 175 psi', which is arithmetically false regardless (171<175); origin stays step 1 since it deviates first.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-12",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "arithmetic",
+    "evidence": "Step 2 computes 'Total actual staffing units = 5 + (0.5) = 5.5', but the trainee is one of the 5 rostered nurses, not an addition to them; correct staffing is 4 full nurses + 0.5 trainee = 4.5.",
+    "notes": "4.5 actual vs 4.5 required (18/4) is an exact match, not the comfortable margin the chain concludes.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-13",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "Extraction and arithmetic both check out: 410-80=330, 340+330=670, which is at least the 600 units required.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-14",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Step 1 drops 'The first 2 overtime hours each week are paid at the standard rate as part of a flexible-hours pilot program', so all 6 overtime hours get priced at 1.5x ($198) instead of 2h at base rate + 4h at 1.5x ($176).",
+    "notes": "",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-15",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "45 mg prescribed exactly meets the reduced 45 mg/day ceiling for over-65 patients; facts and the boundary judgment ('within' an inclusive limit) are faithful to the source.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-16",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "arithmetic",
+    "evidence": "Step 1 states '95... 10 of these are reserved... leaving only 45 available', but 95-10=85, not 45.",
+    "notes": "Correct available cement (70 in main storage + 15 usable from the shed = 85) exactly meets the 85-bag requirement; the arithmetic slip flips this into a false shortage.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-17",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "omission",
+    "evidence": "Step 1 drops 'dengan curah air minimal 20 mm' (the minimum rainfall threshold), the number needed to compare against the 15 mm of natural rainfall actually recorded.",
+    "notes": "Without the 20mm threshold, steps 2-4 punt to 'cannot be determined' because of the broken sensor rather than using the concrete 15mm-vs-20mm comparison that was available independent of the sensor.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-19",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "misread",
+    "evidence": "Step 1 states 'these discounts cannot be combined' and in the same sentence applies both anyway ('applying the 20% discount first and then the $10 coupon'), directly contradicting itself.",
+    "notes": "Correct final price under a no-combine clearance rule is $96 (the single 20% discount only, the larger of the two benefits).",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-20",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "Tiered rate math (500*0.12 + 140*0.18 = 85.20) and the autopay fee waiver are both applied correctly.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-22",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "arithmetic",
+    "evidence": "Step 2 computes 'effective peak handling capacity... 5,000 requests per second (4,000 * 5/6 is about 5,000)'; 4000*5/6 is about 3,333, not 5,000.",
+    "notes": "Final verdict (cluster cannot handle the 5,200 req/s spike) still happens to be correct since the true effective capacity is even lower than the stated wrong figure.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-24",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 1,
+    "error_type": "fabrication",
+    "evidence": "Step 1 adds 'which means there are typically around 10% unconfirmed attendees', a figure not present in the source and inconsistent with the source's own stated 8% historical no-show rate, which the same step also correctly restates later.",
+    "notes": "The fabricated 10% does not appear to propagate into step 2's math, which correctly uses 8%; step 2 is truncated and step 3's '236' recommendation does not clearly follow from its own '234' figure.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-25",
-    "cascade_occurred": null,
-    "origin_step": null,
-    "error_type": null,
-    "evidence": "",
-    "notes": ""
+    "cascade_occurred": true,
+    "origin_step": 2,
+    "error_type": "arithmetic",
+    "evidence": "Step 2 computes 'Total_pendaftar = 95+8=103' and then states '103 is still well below the maximum capacity (96)', a direct numerical contradiction since 103 is greater than 96.",
+    "notes": "Correct reading: 103 registered exceeds the 96-seat capacity across 3 classes, so a 4th class is likely needed, the opposite of the chain's conclusion.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-26",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "Borderline: source notes the co-signed $250/month loan 'does not appear on the buyer's own credit report', which could be read as excluding it from a credit-report-driven DTI calculation. Read here as a disclosure detail rather than an exclusion instruction, since a co-signer's own legal obligation is normally counted in DTI; either reading fails the 43% threshold (45.7% or 49.3%), so it does not change the final answer.",
+    "verified_by_human": true
   },
   {
     "chain_id": "organic-27",
-    "cascade_occurred": null,
+    "cascade_occurred": false,
     "origin_step": null,
-    "error_type": null,
+    "error_type": "none",
     "evidence": "",
-    "notes": ""
+    "notes": "Rookie discount (12*0.5=6) and total (109+6=115 < 118 cap) are both computed correctly.",
+    "verified_by_human": true
   }
 ]

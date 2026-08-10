@@ -77,16 +77,24 @@ def export_injected(out: Path, clean: list[dict]) -> None:
 
 
 def load_best_labels() -> dict[str, dict]:
-    """Best available label per chain, preferring human-verified over machine.
+    """Resolve one label per chain and record how it was resolved.
 
-    A human-verified record wins over the machine pass for the same chain, and
-    the row records which it was: a published dataset that hides whether a label
-    was written by a person or a model is not reusable as ground truth.
+    Single-annotated chains take their annotator's label. Double-annotated
+    chains take the agreed label when the two humans agree. When they disagree,
+    the tie is broken by majority across the two humans plus the independent
+    machine pass — a fixed, neutral rule chosen so the outcome does not depend
+    on which annotator anyone prefers. The machine pass never overrides human
+    consensus; it only votes when the humans split.
+
+    Every row carries `label_agreement` and, for double-annotated chains,
+    `annotator_labels` holding each pass verbatim. A benchmark that hides its
+    disputed items overstates how well-defined its ground truth is.
     """
-    best: dict[str, dict] = {}
-    for record in json.loads(ANNOTATIONS.read_text(encoding="utf-8")):
-        best[record["chain_id"]] = {**record, "label_source": "machine"}
-
+    machine = {
+        r["chain_id"]: r
+        for r in json.loads(ANNOTATIONS.read_text(encoding="utf-8"))
+    }
+    humans: dict[str, dict[str, dict]] = {}
     for path in sorted((ROOT / "annotation" / "forms").glob("annotations-*.json")):
         who = path.stem.replace("annotations-", "")
         if who == "claude":
@@ -94,10 +102,52 @@ def load_best_labels() -> dict[str, dict]:
         for record in json.loads(path.read_text(encoding="utf-8")):
             if record.get("cascade_occurred") is None:
                 continue
-            if not record.get("verified_by_human"):
-                continue
-            best[record["chain_id"]] = {**record, "label_source": f"human:{who}"}
-    return best
+            humans.setdefault(record["chain_id"], {})[who] = record
+
+    key = lambda r: (r["cascade_occurred"], r["origin_step"], r["error_type"])
+    resolved: dict[str, dict] = {}
+    for chain_id, base in machine.items():
+        passes = humans.get(chain_id, {})
+        if not passes:
+            resolved[chain_id] = {**base, "label_agreement": "machine_only"}
+            continue
+        if len(passes) == 1:
+            who, record = next(iter(passes.items()))
+            resolved[chain_id] = {
+                **record, "label_agreement": f"single:{who}",
+            }
+            continue
+
+        names = sorted(passes)
+        chosen_from, agreement = None, None
+        if key(passes[names[0]]) == key(passes[names[1]]):
+            chosen_from, agreement = names[0], "consensus"
+        else:
+            # Majority across both humans and the machine pass.
+            for who in names:
+                if key(passes[who]) == key(base):
+                    chosen_from, agreement = who, "disputed:majority"
+                    break
+            if chosen_from is None:
+                # Three-way split: no majority exists. Keep the machine pass as
+                # a neutral placeholder and mark it unresolved rather than
+                # inventing a winner.
+                chosen_from, agreement = None, "disputed:unresolved"
+
+        source = passes[chosen_from] if chosen_from else base
+        resolved[chain_id] = {
+            **source,
+            "label_agreement": agreement,
+            "annotator_labels": {
+                who: {
+                    "cascade_occurred": r["cascade_occurred"],
+                    "origin_step": r["origin_step"],
+                    "error_type": r["error_type"],
+                }
+                for who, r in sorted(passes.items())
+            },
+        }
+    return resolved
 
 
 def export_organic(out: Path) -> None:
@@ -127,12 +177,15 @@ def export_organic(out: Path) -> None:
             "error_type": truth.get("error_type"),
             "evidence": truth.get("evidence", ""),
             "annotation_notes": truth.get("notes", ""),
-            "label_source": truth.get("label_source", "machine"),
+            "label_agreement": truth.get("label_agreement", "machine_only"),
+            "annotator_labels": truth.get("annotator_labels"),
         })
     write_jsonl(out / "organic.jsonl", rows)
-    human = sum(1 for r in rows if r["label_source"].startswith("human"))
-    print(f"    -> {human}/{len(rows)} labels human-verified, "
-          f"{len(rows) - human} machine")
+    tally: dict[str, int] = {}
+    for row in rows:
+        kind = row["label_agreement"].split(":")[0]
+        tally[kind] = tally.get(kind, 0) + 1
+    print("    -> " + ", ".join(f"{n} {k}" for k, n in sorted(tally.items())))
 
 
 CARD = """---
@@ -207,10 +260,10 @@ made.
 
 | Error type | Count |
 |---|---|
-| `misread` (fact present, meaning inverted) | 12/24 (50%) |
-| `omission` (fact silently dropped) | 9/24 (38%) |
-| `fabrication` | 2/24 (8%) |
-| `arithmetic` | 1/24 (4%) |
+| `misread` (fact present, meaning inverted) | 11/24 (46%) |
+| `omission` (fact silently dropped) | 8/24 (33%) |
+| `fabrication` | 1/24 (4%) |
+| `arithmetic` | 4/24 (17%) |
 
 `misread` dominating is a correction to an earlier N=8 reading of this data,
 where `omission` appeared dominant. That was a small-sample artefact.

@@ -127,16 +127,18 @@ N=8 write-up above do not survive the larger sample.
 
 | Error type at the origin | N=8 (batch 1) | N=28 (full set) |
 |---|---|---|
-| misread (fact present, meaning inverted or misapplied) | 2/8 (25%) | **12/24 (50%)** |
-| omission (fact silently dropped) | **5/8 (62%)** | 9/24 (38%) |
-| fabrication | 0/8 | 2/24 (8%) |
-| arithmetic | 1/8 (12%) | 1/24 (4%) |
+| misread (fact present, meaning inverted or misapplied) | 2/8 (25%) | **11/24 (46%)** |
+| omission (fact silently dropped) | **5/8 (62%)** | 8/24 (33%) |
+| fabrication | 0/8 | 1/24 (4%) |
+| arithmetic | 1/8 (12%) | 4/24 (17%) |
 
 The N=28 column is the human-verified labelling (updated 2026-08-08; the earlier
 machine-only pass read `organic-04` as arithmetic and `organic-18` as
-fabrication). **No origin step changed between the two passes**, so every
-attribution figure in this document is unaffected — only the type distribution
-moved.
+fabrication). Fabio's pass then moved two more types (`organic-22`,
+`organic-25`) and one origin step (`organic-22`, step 1 to step 2). Attribution
+figures below are rescored against the human labels; the one origin correction
+moved them up, because Castor had predicted step 2 for `organic-22` and the
+machine label was the thing that was wrong.
 
 The batch-1 claim that omission dominates was an artefact of eight samples. The
 larger mode is *misread*: the step keeps the fact and inverts what it means. A
@@ -173,10 +175,10 @@ defaults: coverage 0.5, omission 0.25):
 
 | Origin attribution | drift + entailment | + omission signal |
 |---|---|---|
-| all cascaded chains, exact | 6/24 (25%) | **12/24 (50%)** |
+| all cascaded chains, exact | 7/24 (29%) | **13/24 (54%)** |
 | all cascaded chains, within-1 | 18/24 (75%) | **23/24 (96%)** |
-| chains annotated `omission`, exact | 0/9 (0%) | **5/9 (56%)** |
-| chains annotated `omission`, within-1 | 7/9 (78%) | **9/9 (100%)** |
+| chains annotated `omission`, exact | 0/8 (0%) | **5/8 (62%)** |
+| chains annotated `omission`, within-1 | 6/8 (75%) | **8/8 (100%)** |
 
 The signal adds no detection: both configurations flag 24/24 cascades, and there
 is no chain where omission is the only flag. What it buys is *attribution*, which
